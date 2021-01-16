@@ -41,7 +41,7 @@ const Request = ({navigationState}) => {
               style={
                 selected === index
                   ? {
-                      borderBottomColor: '#231F20',
+                      borderBottomColor: '#fff',
                       borderBottomWidth: 4,
                     }
                   : {borderBottomColor: 'transparent', borderBottomWidth: 4}

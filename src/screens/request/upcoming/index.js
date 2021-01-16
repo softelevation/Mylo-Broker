@@ -4,8 +4,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Block, ImageComponent, Text} from '../../../components';
-import {t1, t2, w1, w3} from '../../../components/theme/fontsize';
+import {Block, CustomButton, ImageComponent, Text} from '../../../components';
+import {t1, t2, w3, w6} from '../../../components/theme/fontsize';
 
 const UpcomingRequest = () => {
   const _renderItem = () => {
@@ -54,15 +54,29 @@ const UpcomingRequest = () => {
             </Block>
           </Block>
           <Block flex={false} center middle style={{width: wp(30)}}>
-            <Block
-              padding={[5, 10, 5, 10]}
-              borderRadius={5}
+            <CustomButton
+              padding={[t1, w6]}
+              borderRadius={20}
               flex={false}
-              color="#FFF8E3">
-              <Text size={12} color="#FAC01C">
-                In Progress
+              borderColor={'#39B54A'}
+              borderWidth={1}
+              color="#39B54A">
+              <Text size={14} color="#fff">
+                Accept
               </Text>
-            </Block>
+            </CustomButton>
+            <CustomButton
+              padding={[t1, w6]}
+              borderRadius={20}
+              margin={[t2, 0]}
+              flex={false}
+              borderColor={'#B92D00'}
+              borderWidth={1}
+              color="#fff">
+              <Text size={14} color="#B92D00">
+                Reject
+              </Text>
+            </CustomButton>
           </Block>
         </Block>
       </Block>

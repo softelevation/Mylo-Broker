@@ -54,11 +54,11 @@ const PastRequest = () => {
           </Block>
           <Block flex={false} center middle style={{width: wp(30)}}>
             <Block
-              padding={[5, 10, 5, 10]}
+              padding={[7]}
               borderRadius={5}
               flex={false}
               color="rgba(87, 185, 86,.3)">
-              <Text semibold size={12} secondary>
+              <Text semibold color="#39B54A" size={12}>
                 Completed
               </Text>
             </Block>
