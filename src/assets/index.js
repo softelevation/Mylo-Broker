@@ -1,0 +1,21 @@
+const images = {
+  logo: require('./icons/logo.png'),
+  avatar: require('./icons/avatar.png'),
+  bg: require('./icons/bg.jpg'),
+  request_icon: require('./icons/new-booking.png'),
+  my_request_icon: require('./icons/my-bookings.png'),
+  noti_icon: require('./icons/notifications.png'),
+  become_broker_icon: require('./icons/certificate.png'),
+  privacy_icon: require('./icons/privacy.png'),
+  terms_icon: require('./icons/terms.png'),
+  logout_icon: require('./icons/logout.png'),
+  default_icon: require('./icons/default_icon.png'),
+  clock_icon: require('./icons/clock.png'),
+  calendar_icon: require('./icons/calendar.png'),
+  location_icon: require('./icons/location.png'),
+  search_broker_icon: require('./icons/search-broker.png'),
+  accepted_icon: require('./icons/accepted_icon.png'),
+  rejected_icon: require('./icons/rejected_icon.png'),
+  menu_icon: require('./icons/menu.png'),
+};
+export default images;
