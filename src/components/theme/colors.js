@@ -9,9 +9,10 @@ export const dark = {
 export const light = {
   name: 'light',
   primary: '#ffffff',
-  secondary: '#000',
+  secondary: '#3E443E',
   headerColor: '#505862',
   subtitleColor: '#00000091',
   warning: '#EE3254',
   accent: '#B92D00',
+  starColor: '#FDCC0D',
 };

@@ -17,5 +17,14 @@ const images = {
   accepted_icon: require('./icons/accepted_icon.png'),
   rejected_icon: require('./icons/rejected_icon.png'),
   menu_icon: require('./icons/menu.png'),
+  map_icon: require('./icons/map-ui.png'),
+  left_arrow_icon: require('./icons/left-arrow.png'),
+  chat_icon: require('./icons/chat.png'),
+  attachment_icon: require('./icons/paper-clip.png'),
+  message_send_icon: require('./icons/paper-plane.png'),
+  feedback_icon: require('./icons/feedback.png'),
+  intro1_icon: require('./icons/intro1.jpeg'),
+  map_person_icon: require('./icons/mapicon.png'),
+  route_icon: require('./icons/route.png'),
 };
 export default images;

@@ -18,7 +18,7 @@ import Request from '../screens/request';
 import UpcomingRequest from '../screens/request/upcoming';
 import PastRequest from '../screens/request/past';
 import Notifications from '../screens/notifications';
-
+import RequestDetails from '../screens/request/details/index';
 const Tab = createMaterialTopTabNavigator();
 const PostLoginStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -74,11 +74,20 @@ const HomeStack = () => (
     headerMode="none"
     mode="card"
     initialRouteName="Maps">
-    <PostLoginStack.Screen name="Maps" options={transition} component={Home} />
+    <PostLoginStack.Screen
+      name="Maps"
+      options={transition}
+      component={MyTabs}
+    />
     <PostLoginStack.Screen
       name="Profile"
       options={transition}
       component={Profile}
+    />
+    <PostLoginStack.Screen
+      name="RequestDetails"
+      options={transition}
+      component={RequestDetails}
     />
   </PostLoginStack.Navigator>
 );

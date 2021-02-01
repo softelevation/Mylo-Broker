@@ -8,7 +8,7 @@ import {Block, CustomButton, ImageComponent, Text} from '../../../components';
 import {t1, t2, w3, w6} from '../../../components/theme/fontsize';
 
 const UpcomingRequest = () => {
-  const _renderItem = () => {
+  const _renderItem = ({item}) => {
     return (
       <Block
         white
@@ -24,7 +24,7 @@ const UpcomingRequest = () => {
               Addison Mccray
             </Text>
             <Text margin={[hp(0.5), 0, 0, 0]} grey body>
-              Request Id: #1 (08 august, 11:11)
+              Request Id: #{item} (08 august, 11:11)
             </Text>
           </Block>
         </Block>

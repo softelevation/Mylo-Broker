@@ -1,15 +1,18 @@
 import React from 'react';
 import {FlatList} from 'react-native';
-import {Block, ImageComponent, Text} from '../../../components';
-import {t1, t2, w1, w3} from '../../../components/theme/fontsize';
+import {Block, CustomButton, ImageComponent, Text} from '../../../components';
+import {t1, t2, w3} from '../../../components/theme/fontsize';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useNavigation} from '@react-navigation/native';
 const PastRequest = () => {
-  const _renderItem = () => {
+  const navigation = useNavigation();
+  const _renderItem = ({item}) => {
     return (
-      <Block
+      <CustomButton
+        onPress={() => navigation.navigate('RequestDetails')}
         white
         margin={[t2, w3, 0, w3]}
         borderRadius={10}
@@ -23,7 +26,7 @@ const PastRequest = () => {
               Addison Mccray
             </Text>
             <Text margin={[hp(0.5), 0, 0, 0]} grey body>
-              Request Id: #1 (08 august, 11:11)
+              Request Id: #{item} (08 august, 11:11)
             </Text>
           </Block>
         </Block>
@@ -64,7 +67,7 @@ const PastRequest = () => {
             </Block>
           </Block>
         </Block>
-      </Block>
+      </CustomButton>
     );
   };
   return (

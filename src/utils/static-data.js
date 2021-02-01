@@ -1,10 +1,5 @@
 export const DrawerData = [
   {
-    name: 'New Request',
-    icon: 'request_icon',
-    nav: 'Maps',
-  },
-  {
     name: 'My Request',
     icon: 'my_request_icon',
     nav: 'Request',
@@ -14,11 +9,11 @@ export const DrawerData = [
     icon: 'noti_icon',
     nav: 'Notifications',
   },
-  {
-    name: 'Become a Broker',
-    icon: 'become_broker_icon',
-    nav: 'BecomeBroker',
-  },
+  // {
+  //   name: 'Become a Broker',
+  //   icon: 'become_broker_icon',
+  //   nav: 'BecomeBroker',
+  // },
   {
     name: 'Privacy Policy',
     icon: 'privacy_icon',

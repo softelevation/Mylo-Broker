@@ -58,6 +58,7 @@
 		5398AEFB0D81E9E0065C714F /* Pods-Mylo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mylo.release.xcconfig"; path = "Target Support Files/Pods-Mylo/Pods-Mylo.release.xcconfig"; sourceTree = "<group>"; };
 		5F57F11B969083B1363D22EE /* libPods-Mylo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mylo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B3C01C203F60CEF669FEF6C /* libPods-Mylo-MyloTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mylo-MyloTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C271C3425C57EB500D9F592 /* Mylo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Mylo.entitlements; path = Mylo/Mylo.entitlements; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Mylo/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86B9A442FBA8EDF173A4EC08 /* Pods-Mylo-MyloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mylo-MyloTests.debug.xcconfig"; path = "Target Support Files/Pods-Mylo-MyloTests/Pods-Mylo-MyloTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A85CD2754A59882029F00DCF /* Pods-Mylo-MyloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mylo-MyloTests.release.xcconfig"; path = "Target Support Files/Pods-Mylo-MyloTests/Pods-Mylo-MyloTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -134,13 +135,13 @@
 				3B71924B50B88DD8B9BB5698 /* Pods-Mylo-tvOSTests.debug.xcconfig */,
 				148DED169A2D5F3D9C9342D0 /* Pods-Mylo-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
 		13B07FAE1A68108700A75B9A /* Mylo */ = {
 			isa = PBXGroup;
 			children = (
+				7C271C3425C57EB500D9F592 /* Mylo.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -719,6 +720,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mylo/Mylo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Mylo/Info.plist;
@@ -728,7 +730,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mylo-broker";
 				PRODUCT_NAME = Mylo;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -742,6 +744,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mylo/Mylo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Mylo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -750,7 +753,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mylo-broker";
 				PRODUCT_NAME = Mylo;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

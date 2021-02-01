@@ -29,7 +29,7 @@ const componentStyles = () => {
       height: 40,
     },
     accent: {backgroundColor: 'red'},
-    primary: {backgroundColor: '#000', paddingVertical: t1 * 1.5},
+    primary: {backgroundColor: light.primary, paddingVertical: t1 * 1.5},
     secondary: {
       backgroundColor: light.secondary,
       paddingVertical: t1 * 1.5,
