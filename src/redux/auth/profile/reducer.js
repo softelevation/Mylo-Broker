@@ -22,6 +22,22 @@ export function profileReducer(state = initialState, action) {
         ...state,
         loading: false,
       };
+    case ActionConstants.PROFILE_UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ActionConstants.PROFILE_UPDATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.data,
+      };
+    case ActionConstants.PROFILE_UPDATE_ERROR:
+      return {
+        ...state,
+        loading: false,
+      };
     case ActionConstants.PROFILE_FLUSH:
       return {
         ...initialState,

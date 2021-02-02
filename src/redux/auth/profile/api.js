@@ -13,3 +13,21 @@ export const Api = async () => {
     headers,
   });
 };
+export const updateApi = async (data) => {
+  const {name, email, address} = data;
+  const token = await AsyncStorage.getItem('token');
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: token,
+  };
+  return axios({
+    method: 'post',
+    url: `${config.Api_Url}/user/profile`,
+    headers,
+    data: {
+      name: name,
+      email: email,
+      address: address,
+    },
+  });
+};

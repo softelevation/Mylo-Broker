@@ -11,10 +11,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginSuccess} from '../redux/action';
 import {strictValidObjectWithKeys} from '../utils/commonUtils';
-const DrawerScreen = () => {
+const DrawerScreen = ({state}) => {
   const nav = useNavigation();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.profile.user);
+  const user = useSelector((v) => v.user.profile.user);
 
   const renderHeight = (icon) => {
     switch (icon) {
@@ -58,7 +58,7 @@ const DrawerScreen = () => {
     }
   };
 
-  const _renderItem = ({item}) => {
+  const _renderItem = ({item, index}) => {
     return (
       <CustomButton
         onPress={() => navigateHelpers(item.nav)}
@@ -77,6 +77,14 @@ const DrawerScreen = () => {
         <Text size={16} semibold margin={[0, wp(8), 0, wp(5)]}>
           {item.name}
         </Text>
+        {index === state.index && (
+          <Block
+            flex={false}
+            secondary
+            borderRadius={10}
+            style={{height: 10, width: 10}}
+          />
+        )}
       </CustomButton>
     );
   };

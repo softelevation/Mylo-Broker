@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Block, CustomButton, ImageComponent, Text} from '../../../components';
 import ActivityLoader from '../../../components/activityLoader';
 import {t1, t2, w3, w6} from '../../../components/theme/fontsize';
@@ -12,18 +12,45 @@ import {strictValidObjectWithKeys} from '../../../utils/commonUtils';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import EmptyFile from '../../../components/emptyFile';
+import io from 'socket.io-client';
+import {customerListRequest} from '../../../redux/action';
+import AsyncStorage from '@react-native-community/async-storage';
+
 const UpcomingRequest = () => {
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const isLoad = useSelector((state) => state.customer.list.loading);
   const data = useSelector((state) => state.customer.list.data);
   const {upcoming} = data;
+  const [socketRes, setSocketRes] = useState();
+
+  useEffect(() => {
+    const socket = io('http://104.131.39.110:3000');
+    console.log('Connecting socket...');
+    socket.on('connect', (a) => {
+      setSocketRes(socket);
+      console.log('true', socket.connected); // true
+    });
+    socket.on('refresh_feed', (msg) => {
+      if (msg.type === 'book_broker') {
+        dispatch(customerListRequest());
+      }
+      console.log('Websocket event received!', msg);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const formatDate = (v) => {
     return moment(v).format('DD, MMM YYYY');
   };
   const formatTime = (v) => {
     return moment(v).format('hh:mm a');
+  };
+  const AcceptDeclineRequest = async (id, status) => {
+    const token = await AsyncStorage.getItem('token');
+    console.log(id, status, token, 'hbkhjbj');
+
+    socketRes.emit('request', {id, status, token});
   };
   const _renderItem = ({item}) => {
     return (
@@ -80,6 +107,7 @@ const UpcomingRequest = () => {
             {item.status === 'pending' ? (
               <>
                 <CustomButton
+                  onPress={() => AcceptDeclineRequest(item.id, 'in_progress')}
                   padding={[t1, w6]}
                   borderRadius={20}
                   flex={false}
@@ -91,6 +119,7 @@ const UpcomingRequest = () => {
                   </Text>
                 </CustomButton>
                 <CustomButton
+                  onPress={() => AcceptDeclineRequest(item.id, 'rejected')}
                   padding={[t1, w6]}
                   borderRadius={20}
                   margin={[t2, 0]}
