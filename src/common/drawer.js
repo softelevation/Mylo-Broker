@@ -5,10 +5,17 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {Block, CustomButton, ImageComponent, Text} from '../components';
-import {useNavigation} from '@react-navigation/native';
+import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {DrawerData} from '../utils/static-data';
+import AsyncStorage from '@react-native-community/async-storage';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginSuccess} from '../redux/action';
+import {strictValidObjectWithKeys} from '../utils/commonUtils';
 const DrawerScreen = () => {
   const nav = useNavigation();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.profile.user);
+
   const renderHeight = (icon) => {
     switch (icon) {
       case 'become_broker_icon':
@@ -36,10 +43,25 @@ const DrawerScreen = () => {
     }
   };
 
+  const navigateHelpers = async (val) => {
+    if (val === 'Login') {
+      try {
+        const keys = await AsyncStorage.getAllKeys();
+        await AsyncStorage.multiRemove(keys);
+        dispatch(loginSuccess(''));
+        nav.reset({
+          routes: [{name: 'Auth'}],
+        });
+      } catch (error) {}
+    } else {
+      nav.navigate(val);
+    }
+  };
+
   const _renderItem = ({item}) => {
     return (
       <CustomButton
-        onPress={() => nav.navigate(item.nav)}
+        onPress={() => navigateHelpers(item.nav)}
         row
         center
         flex={false}
@@ -76,7 +98,7 @@ const DrawerScreen = () => {
           </Block>
           <Block margin={[0, wp(4), 0, wp(4)]} flex={false}>
             <Text white bold>
-              Jack Ryan
+              {strictValidObjectWithKeys(user) && user.name}
             </Text>
             <TouchableOpacity onPress={() => nav.navigate('Profile')}>
               <Text

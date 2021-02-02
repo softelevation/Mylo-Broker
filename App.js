@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
 import Routes from './src/routes';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {Text} from 'react-native';
 import PushNotification from 'react-native-push-notification';
 import createSagaMiddleware from 'redux-saga';
 import {createStore, applyMiddleware} from 'redux';
@@ -34,15 +32,26 @@ const App = () => {
   useEffect(() => {
     PushNotification.configure({
       // (required) Called when a remote or local notification is opened or received
-      onNotification: function (notification) {
-        console.log('LOCAL NOTIFICATION ==>', notification);
-      },
+      onNotification: function (notification) {},
       popInitialNotification: true,
       requestPermissions: true,
     });
 
     LocalNotification();
   });
+
+  // useEffect(() => {
+  //   socket.connect();
+  //   socket.on('connect', (con: any) => {
+  //     console.debug('SOCKET: connected to socket server', con);
+  //   });
+  //   socket.on('error', (err: any) => {
+  //     console.debug('SOCKET: errors ', err);
+  //   });
+  //   socket.on('connect_error', (err: any) => {
+  //     console.debug('SOCKET: connect_error ---> ', err);
+  //   });
+  // }, []);
 
   return (
     <Provider store={store}>

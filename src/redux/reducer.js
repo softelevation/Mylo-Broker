@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
 import user from './auth/reducer';
-import broker from './broker/reducer';
+import customer from './requests/reducer';
 const rootreducer = combineReducers({
   user,
-  broker,
+  customer,
 });
 export default rootreducer;

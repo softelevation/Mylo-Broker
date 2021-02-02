@@ -82,7 +82,7 @@ const Button = ({
 
   return (
     <TouchableOpacity
-      style={buttonStyles}
+      style={[buttonStyles, disabled && styles.disabledButton]}
       disabled={!!disabled}
       activeOpacity={disabled ? opacity || 0.8 : 0.2}
       {...rest}>

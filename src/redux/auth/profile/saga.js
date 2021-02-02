@@ -6,8 +6,8 @@ import {Api} from './api';
 export function* request(action) {
   try {
     const response = yield call(Api, action.payload);
-    if (response) {
-      yield put(profileSuccess(response.data));
+    if (response.data.status === 1) {
+      yield put(profileSuccess(response.data.data));
     } else {
       yield put(profileError(response));
     }

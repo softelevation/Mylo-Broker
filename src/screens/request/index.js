@@ -1,16 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
 import Header from '../../common/header';
 import {Block, CustomButton} from '../../components';
+import {customerListRequest} from '../../redux/action';
 
 const Request = ({navigationState}) => {
   const {routes, index} = navigationState;
+  const dispatch = useDispatch();
   const selected = index;
   const navigation = useNavigation();
   const getValues = (name) => {
@@ -19,6 +22,12 @@ const Request = ({navigationState}) => {
     }
     return 'Upcoming';
   };
+
+  useEffect(() => {
+    dispatch(customerListRequest());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Block safearea flex={false}>
       <Header centerText={'Requests'} />

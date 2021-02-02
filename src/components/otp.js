@@ -12,8 +12,7 @@ import {
 } from 'react-native-responsive-screen';
 
 const CELL_COUNT = 6;
-const Otp = () => {
-  const [value, setValue] = useState('');
+const Otp = ({value, setValue}) => {
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,

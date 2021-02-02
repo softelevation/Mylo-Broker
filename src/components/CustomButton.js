@@ -1,9 +1,20 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+  SafeAreaView,
+} from 'react-native';
 import {light} from './theme/colors';
 
 const componentStyles = () => {
   return StyleSheet.create({
+    block: {
+      flex: 1,
+    },
+    baseline: {
+      alignItems: 'baseline',
+    },
     row: {
       flexDirection: 'row',
     },
@@ -20,7 +31,7 @@ const componentStyles = () => {
       justifyContent: 'flex-start',
     },
     right: {
-      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
     },
     top: {
       justifyContent: 'flex-start',
@@ -28,12 +39,19 @@ const componentStyles = () => {
     bottom: {
       justifyContent: 'flex-end',
     },
+    borderColor: {
+      borderColor: '#0000001F',
+    },
     shadow: {
-      // shadowColor: colors.black,
-      shadowOffset: {width: 0, height: 2},
-      shadowOpacity: 0.1,
-      shadowRadius: 13,
-      elevation: 2,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+
+      elevation: 3,
     },
     primary: {backgroundColor: light.primary},
     secondary: {backgroundColor: light.secondary},
@@ -41,6 +59,7 @@ const componentStyles = () => {
 };
 
 const CustomButton = ({
+  safearea,
   padding,
   margin,
   flex,
@@ -67,6 +86,8 @@ const CustomButton = ({
   borderRadius,
   borderColor,
   borderColorDeafult,
+  alignSelf,
+  baseline,
   ...rest
 }) => {
   const styles = componentStyles();
@@ -154,45 +175,45 @@ const CustomButton = ({
     }
   };
 
-  const handleBordersRadius = (border) => {
-    if (typeof border === 'number') {
+  const handleBordersRadius = () => {
+    if (typeof borderRadius === 'number') {
       return {
-        borderTopLeftRadius: border,
-        borderTopRightRadius: border,
-        borderBottomLeftRadius: border,
-        borderBottomRightRadius: border,
+        borderTopLeftRadius: borderRadius,
+        borderTopRightRadius: borderRadius,
+        borderBottomLeftRadius: borderRadius,
+        borderBottomRightRadius: borderRadius,
       };
     }
     if (typeof border === 'object') {
-      const borderRadius = Object.keys(border).length;
-      switch (borderRadius) {
+      const border_Radius = Object.keys(borderRadius).length;
+      switch (border_Radius) {
         case 1:
           return {
-            borderTopLeftRadius: border[0],
-            borderTopRightRadius: border[0],
-            borderBottomLeftRadius: border[0],
-            borderBottomRightRadius: border[0],
+            borderTopLeftRadius: borderRadius[0],
+            borderTopRightRadius: borderRadius[0],
+            borderBottomLeftRadius: borderRadius[0],
+            borderBottomRightRadius: borderRadius[0],
           };
         case 2:
           return {
-            borderTopLeftRadius: border[0],
-            borderTopRightRadius: border[1],
-            borderBottomLeftRadius: border[0],
-            borderBottomRightRadius: border[1],
+            borderTopLeftRadius: borderRadius[0],
+            borderTopRightRadius: borderRadius[1],
+            borderBottomLeftRadius: borderRadius[0],
+            borderBottomRightRadius: borderRadius[1],
           };
         case 3:
           return {
-            borderTopLeftRadius: border[0],
-            borderTopRightRadius: border[1],
-            borderBottomLeftRadius: border[2],
-            borderBottomRightRadius: border[1],
+            borderTopLeftRadius: borderRadius[0],
+            borderTopRightRadius: borderRadius[1],
+            borderBottomLeftRadius: borderRadius[2],
+            borderBottomRightRadius: borderRadius[1],
           };
         default:
           return {
-            borderTopLeftRadius: border[0],
-            borderTopRightRadius: border[1],
-            borderBottomLeftRadius: border[2],
-            borderBottomRightRadius: border[3],
+            borderTopLeftRadius: borderRadius[0],
+            borderTopRightRadius: borderRadius[1],
+            borderBottomLeftRadius: borderRadius[2],
+            borderBottomRightRadius: borderRadius[3],
           };
       }
     }
@@ -244,6 +265,7 @@ const CustomButton = ({
   };
   const blockStyles = [
     styles.block,
+    white && {backgroundColor: '#fff'},
     flex && {flex},
     flex === false && {flex: 0}, // reset / disable flex
     row && styles.row,
@@ -257,6 +279,8 @@ const CustomButton = ({
     card && styles.card,
     shadow && styles.shadow,
     space && {justifyContent: `space-${space}`},
+    baseline && styles.baseline,
+    alignSelf && {alignSelf: alignSelf},
     wrap && {flexWrap: 'wrap'},
     borderColor && !styles[color] && {borderColor: borderColor},
     borderColorDeafult && styles.borderColor,
@@ -264,13 +288,27 @@ const CustomButton = ({
     margin && {...handleMargins()},
     padding && {...handlePaddings()},
     borderWidth && {...handleBorderWidth()},
-    borderRadius && {...handleBordersRadius(borderRadius)},
+    borderRadius && {...handleBordersRadius()},
     primary && styles.primary,
     color && styles[color], // predefined styles colors for backgroundColor
     color && !styles[color] && {backgroundColor: color}, // custom backgroundColor
     style, // rewrite predefined styles
   ];
 
+  if (animated) {
+    return (
+      <Animated.View {...rest} style={blockStyles}>
+        {children}
+      </Animated.View>
+    );
+  }
+  if (safearea) {
+    return (
+      <SafeAreaView {...rest} style={[blockStyles]}>
+        {children}
+      </SafeAreaView>
+    );
+  }
   return (
     <TouchableOpacity {...rest} style={blockStyles}>
       {children}

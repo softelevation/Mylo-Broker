@@ -26,5 +26,6 @@ const images = {
   intro1_icon: require('./icons/intro1.jpeg'),
   map_person_icon: require('./icons/mapicon.png'),
   route_icon: require('./icons/route.png'),
+  empty_icon: require('./icons/empty.png'),
 };
 export default images;

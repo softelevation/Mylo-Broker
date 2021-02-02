@@ -104,9 +104,9 @@ const Input = ({
   const inputStyles = [
     styles.input,
     !editable && {
-      backgroundColor: '#000',
-      color: '#fff',
-      borderColor: '#000',
+      backgroundColor: '#e9ecef',
+      color: '#9c9c9c',
+      borderColor: '#e9ecef',
     },
     error && {borderColor: 'red'},
     style,

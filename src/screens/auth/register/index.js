@@ -7,12 +7,18 @@ import {Block, Button, ImageComponent, Input, Text} from '../../../components';
 import {useNavigation} from '@react-navigation/native';
 import Otp from '../../../components/otp';
 import {Alert, Keyboard, KeyboardAvoidingView, Platform} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {registerRequest} from '../../../redux/action';
 const Register = () => {
   const nav = useNavigation();
   const [counter, setCounter] = useState(59);
   const [value, setValue] = useState('');
-
+  const dispatch = useDispatch();
+  const phone_no = useSelector((state) => state.user.login.user.data.phone_no);
+  const isLoad = useSelector((state) => state.user.register.loading);
+  const otp = useSelector((state) => state.user.login.user.data.otp);
   // First Attempts
+
   useEffect(() => {
     const timer =
       counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
@@ -21,11 +27,11 @@ const Register = () => {
   }, [counter]);
 
   const verifyOtp = () => {
-    if (value === '123456') {
-      nav.navigate('Home');
-    } else {
-      Alert.alert('Invalid Otp', 'Please enter a valid otp');
-    }
+    const data = {
+      otp: value,
+      phone_no: phone_no,
+    };
+    dispatch(registerRequest(data));
   };
   return (
     <KeyboardAvoidingView
@@ -69,6 +75,7 @@ const Register = () => {
         <Block primary padding={[0, wp(3), 0, wp(3)]} flex={false}>
           <Button
             disabled={value.length < 6}
+            isLoading={isLoad}
             onPress={() => verifyOtp()}
             color="secondary">
             VERIFY OTP
