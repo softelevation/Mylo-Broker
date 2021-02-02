@@ -3,6 +3,16 @@ import Routes from './src/routes';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {Text} from 'react-native';
 import PushNotification from 'react-native-push-notification';
+import createSagaMiddleware from 'redux-saga';
+import {createStore, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import {logger} from 'redux-logger';
+import rootreducer from './src/redux/reducer';
+import rootSaga from './src/redux/saga';
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(rootreducer, applyMiddleware(sagaMiddleware, logger));
+sagaMiddleware.run(rootSaga);
 
 export const LocalNotification = () => {
   PushNotification.localNotification({
@@ -34,7 +44,11 @@ const App = () => {
     LocalNotification();
   });
 
-  return <Routes />;
+  return (
+    <Provider store={store}>
+      <Routes />
+    </Provider>
+  );
 };
 
 export default App;

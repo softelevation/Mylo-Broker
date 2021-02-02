@@ -7,12 +7,13 @@ import {
 import {PostLoginScreen, PreLaunchScreen, PreLoginScreen} from './sub-routes';
 import {SafeAreaView, StatusBar} from 'react-native';
 import {light} from '../components/theme/colors';
+import {navigationRef} from './NavigationService';
 
 const RootStack = createStackNavigator();
 
 function Routes() {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <SafeAreaView style={{flex: 1, backgroundColor: light.secondary}}>
         <StatusBar barStyle="light-content" />
         <RootStack.Navigator

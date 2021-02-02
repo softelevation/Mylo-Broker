@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "29496895320",
+    "project_id": "mylo-7f312",
+    "storage_bucket": "mylo-7f312.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29496895320:android:640ee3a4caa8e72c48272d",
+        "android_client_info": {
+          "package_name": "com.mylo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29496895320-a1uaqmm2speva0mf5bnghmkpe13cq09d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGntyAbtD5p5wtNOA0Yh0fxO6lg3RsVDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29496895320-a1uaqmm2speva0mf5bnghmkpe13cq09d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
