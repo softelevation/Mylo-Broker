@@ -97,11 +97,11 @@ function HomeDrawer() {
       initialRouteName="Maps"
       drawerStyle={{width: widthPercentageToDP(70)}}
       drawerContent={(props) => <DrawerScreen {...props} />}>
+      <Drawer.Screen name="Request" component={MyTabs} />
+      <Drawer.Screen name="Notifications" component={Notifications} />
       <Drawer.Screen name="Maps" options={transition} component={HomeStack} />
       <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="BecomeBroker" component={BecomeBroker} />
-      <Drawer.Screen name="Request" component={MyTabs} />
-      <Drawer.Screen name="Notifications" component={Notifications} />
     </Drawer.Navigator>
   );
 }

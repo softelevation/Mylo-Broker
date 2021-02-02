@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
 import Header from '../../common/header';
 import {Block, CustomButton} from '../../components';
-import {customerListRequest} from '../../redux/action';
+import {customerListRequest, profileRequest} from '../../redux/action';
 import io from 'socket.io-client';
 
 const Request = ({navigationState}) => {
@@ -29,6 +29,8 @@ const Request = ({navigationState}) => {
   //   console.log(res, 'res');
   // };
   useEffect(() => {
+    dispatch(profileRequest());
+
     dispatch(customerListRequest());
     const socket = io('http://104.131.39.110:3000');
     console.log('Connecting socket...');

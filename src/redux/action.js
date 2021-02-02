@@ -9,6 +9,9 @@ export {
   profileRequest,
   profileSuccess,
   profileFlush,
+  profileUpdateError,
+  profileUpdateRequest,
+  profileUpdateSuccess,
 } from './auth/profile/action';
 export {
   generateOtpError,
@@ -23,3 +26,4 @@ export {
   statusChangeRequest,
   statusChangeSuccess,
 } from './requests/action';
+export {socketConnection, socketDisconnect, socketFlush} from './socket/action';

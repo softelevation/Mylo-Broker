@@ -1,30 +1,51 @@
 import {ActionConstants} from '../../constants';
 
-const profileRequest = (payload) => {
+export const profileRequest = (payload) => {
   return {
     type: ActionConstants.PROFILE_REQUEST,
     payload,
     res: false,
   };
 };
-const profileSuccess = (data) => {
+export const profileSuccess = (data) => {
   return {
     type: ActionConstants.PROFILE_SUCCESS,
     data,
     res: true,
   };
 };
-const profileError = (error) => {
+export const profileError = (error) => {
   return {
     type: ActionConstants.PROFILE_ERROR,
     error,
     res: false,
   };
 };
-const profileFlush = (error) => {
+
+export const profileUpdateRequest = (payload) => {
+  return {
+    type: ActionConstants.PROFILE_UPDATE_REQUEST,
+    payload,
+    res: false,
+  };
+};
+export const profileUpdateSuccess = (data) => {
+  return {
+    type: ActionConstants.PROFILE_UPDATE_SUCCESS,
+    data,
+    res: true,
+  };
+};
+export const profileUpdateError = (error) => {
+  return {
+    type: ActionConstants.PROFILE_UPDATE_ERROR,
+    error,
+    res: false,
+  };
+};
+
+export const profileFlush = (error) => {
   return {
     type: ActionConstants.PROFILE_FLUSH,
   };
 };
-
-export {profileRequest, profileError, profileSuccess, profileFlush};
