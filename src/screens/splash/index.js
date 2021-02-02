@@ -7,12 +7,6 @@ import {Block, ImageComponent} from '../../components';
 import {light} from '../../components/theme/colors';
 import {loginSuccess} from '../../redux/action';
 import {strictValidString} from '../../utils/commonUtils';
-import {
-  initiateSocket,
-  disconnectSocket,
-  subscribeToChat,
-  sendMessage,
-} from '../../utils/socket';
 const Splash = () => {
   const nav = useNavigation();
   const dispatch = useDispatch();
@@ -32,7 +26,6 @@ const Splash = () => {
   };
   useEffect(() => {
     callAuthApi();
-    initiateSocket();
   }, []);
 
   return (

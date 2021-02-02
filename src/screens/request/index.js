@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import Header from '../../common/header';
 import {Block, CustomButton} from '../../components';
 import {customerListRequest} from '../../redux/action';
+import io from 'socket.io-client';
 
 const Request = ({navigationState}) => {
   const {routes, index} = navigationState;
@@ -23,8 +24,23 @@ const Request = ({navigationState}) => {
     return 'Upcoming';
   };
 
+  // const eventCheck = async () => {
+  //   const res = await subscribeToChat();
+  //   console.log(res, 'res');
+  // };
   useEffect(() => {
     dispatch(customerListRequest());
+    const socket = io('http://104.131.39.110:3000');
+    console.log('Connecting socket...');
+    socket.on('connect', (a) => {
+      console.log('true', socket.connected); // true
+    });
+    socket.on('refresh_feed', (msg) => {
+      if (msg.type === 'book_broker') {
+        dispatch(customerListRequest());
+      }
+      console.log('Websocket event received!', msg);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
