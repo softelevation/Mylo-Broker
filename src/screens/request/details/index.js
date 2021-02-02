@@ -104,11 +104,7 @@ const RequestDetails = ({
                 numberOfLines={seeMore === true ? undefined : 2}
                 size={15}
                 regular>
-                I am a Real estate agents are licenced professionals. We helps
-                people to buy and sell properties. They provide advice to
-                buyers, sellers, renters and owners about the property market
-                and guide people to find the right home or office space that
-                will suit their needs and budget.
+                {item.about_me}
               </Text>
               <TouchableOpacity
                 onPress={() => {
