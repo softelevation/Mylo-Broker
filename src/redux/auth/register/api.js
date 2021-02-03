@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {config} from '../../../utils/config';
+import {pushTokenData} from '../../../utils/push-notification-service';
 export const Api = async (data) => {
   const {phone_no, otp} = data;
   const headers = {
@@ -12,6 +13,7 @@ export const Api = async (data) => {
     data: {
       phone_no: phone_no,
       otp: otp,
+      token: pushTokenData.token,
     },
   });
 };

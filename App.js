@@ -7,6 +7,10 @@ import {Provider} from 'react-redux';
 import {logger} from 'redux-logger';
 import rootreducer from './src/redux/reducer';
 import rootSaga from './src/redux/saga';
+import {
+  configurePush,
+  toastLocalNotification,
+} from './src/utils/push-notification-service';
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(rootreducer, applyMiddleware(sagaMiddleware, logger));
@@ -30,28 +34,9 @@ export const LocalNotification = () => {
 
 const App = () => {
   useEffect(() => {
-    PushNotification.configure({
-      // (required) Called when a remote or local notification is opened or received
-      onNotification: function (notification) {},
-      popInitialNotification: true,
-      requestPermissions: true,
-    });
-
-    LocalNotification();
+    configurePush();
+    toastLocalNotification();
   });
-
-  // useEffect(() => {
-  //   socket.connect();
-  //   socket.on('connect', (con: any) => {
-  //     console.debug('SOCKET: connected to socket server', con);
-  //   });
-  //   socket.on('error', (err: any) => {
-  //     console.debug('SOCKET: errors ', err);
-  //   });
-  //   socket.on('connect_error', (err: any) => {
-  //     console.debug('SOCKET: connect_error ---> ', err);
-  //   });
-  // }, []);
 
   return (
     <Provider store={store}>
