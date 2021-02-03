@@ -62,8 +62,8 @@ function toastLocalNotification(notification) {
   PushNotification.localNotification({
     largeIcon: 'ic_launcher',
     smallIcon: 'ic_notification',
-    title: 'Check Notification',
-    message: 'message',
+    title: 'Welcome to Mylo Broker',
+    message: '',
     playSound: true,
     soundName: 'default',
   });
