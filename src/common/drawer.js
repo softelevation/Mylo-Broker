@@ -44,7 +44,6 @@ const DrawerScreen = ({state}) => {
   };
 
   const navigateHelpers = async (val) => {
-    console.log(val, 'j');
     if (val === 'Login') {
       try {
         const keys = await AsyncStorage.getAllKeys();
