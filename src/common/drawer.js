@@ -50,7 +50,7 @@ const DrawerScreen = ({state}) => {
         await AsyncStorage.multiRemove(keys);
         dispatch(loginSuccess(''));
         nav.reset({
-          routes: [{name: 'Auth'}],
+          routes: [{name: 'Login'}],
         });
       } catch (error) {}
     } else {
