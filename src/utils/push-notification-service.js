@@ -13,7 +13,7 @@ const configurePush = () => {
     onRegister: onRegister,
     onNotification: onNotificationReceived,
 
-    largeIcon: 'ic_notification',
+    largeIcon: 'ic_launcher',
     smallIcon: 'ic_notification',
     senderID: '29496895320',
     permissions: {
@@ -61,7 +61,7 @@ function onNotificationClicked() {
 function toastLocalNotification(notification) {
   PushNotification.localNotification({
     largeIcon: 'ic_launcher',
-    smallIcon: 'ic_launcher',
+    smallIcon: 'ic_notification',
     title: 'Check Notification',
     message: 'message',
     playSound: true,
