@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList} from 'react-native';
+import {Alert, FlatList, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -15,22 +15,17 @@ import EmptyFile from '../../../components/emptyFile';
 import io from 'socket.io-client';
 import {customerListRequest} from '../../../redux/action';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {light} from '../../../components/theme/colors';
 const UpcomingRequest = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isLoad = useSelector((state) => state.customer.list.loading);
   const data = useSelector((state) => state.customer.list.data);
   const {upcoming} = data;
-  const [socketRes, setSocketRes] = useState();
+  const socket = useSelector((state) => state.socket.data);
 
   useEffect(() => {
-    const socket = io('http://104.131.39.110:3000');
-    console.log('Connecting socket...');
-    socket.on('connect', (a) => {
-      setSocketRes(socket);
-      console.log('true', socket.connected); // true
-    });
     socket.on('refresh_feed', (msg) => {
       if (msg.type === 'book_broker') {
         dispatch(customerListRequest());
@@ -48,9 +43,29 @@ const UpcomingRequest = () => {
   };
   const AcceptDeclineRequest = async (id, status) => {
     const token = await AsyncStorage.getItem('token');
-    console.log(id, status, token, 'hbkhjbj');
+    socket.emit('request', {id, status, token});
+  };
+  const onhandleDelete = async (id, status) => {
+    const token = await AsyncStorage.getItem('token');
+    socket.emit('request', {id, status, token});
+  };
 
-    socketRes.emit('request', {id, status, token});
+  const cancelRequest = (item) => {
+    Alert.alert(
+      'Are you sure?',
+      'You want to cancelled this request',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Yes, do it',
+          onPress: () => onhandleDelete(item.id, 'cancelled'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
   };
   const _renderItem = ({item}) => {
     return (
@@ -67,16 +82,26 @@ const UpcomingRequest = () => {
         padding={[t2]}
         flex={false}
         shadow>
-        <Block center row flex={false}>
-          <ImageComponent name="avatar" height="50" width="50" radius={50} />
-          <Block margin={[0, w3]} flex={false}>
-            <Text bold size={18}>
-              {item.name}
-            </Text>
-            <Text margin={[hp(0.5), 0, 0, 0]} grey body>
-              Request Id: #{item.id}
-            </Text>
+        <Block space="between" center row flex={false}>
+          <Block flex={false} row center>
+            <ImageComponent name="avatar" height="50" width="50" radius={50} />
+            <Block margin={[0, w3]} flex={false}>
+              <Text bold size={18}>
+                {item.name}
+              </Text>
+              <Text margin={[hp(0.5), 0, 0, 0]} grey body>
+                Request Id: #{item.id}
+              </Text>
+            </Block>
           </Block>
+          {item.status !== 'pending' && (
+            <TouchableOpacity
+              onPress={() => {
+                cancelRequest(item);
+              }}>
+              <MaterialIcons name="delete" color={light.accent} size={20} />
+            </TouchableOpacity>
+          )}
         </Block>
         <Block margin={[t1, 0, 0, 0]} flex={false} row>
           <Block

@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import {ActionConstants} from '../constants';
 const initialState = {
   loading: false,
-  data: [],
+  data: {},
   error: '',
 };
 export function socket(state = initialState, action) {

@@ -5,8 +5,10 @@ import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {Block, ImageComponent} from '../../components';
 import {light} from '../../components/theme/colors';
-import {loginSuccess} from '../../redux/action';
+import {loginSuccess, socketConnection} from '../../redux/action';
 import {strictValidString} from '../../utils/commonUtils';
+import io from 'socket.io-client';
+
 const Splash = () => {
   const nav = useNavigation();
   const dispatch = useDispatch();
@@ -26,6 +28,12 @@ const Splash = () => {
   };
   useEffect(() => {
     callAuthApi();
+    const socket = io('http://104.131.39.110:3000');
+    console.log('Connecting socket...');
+    socket.on('connect', (a) => {
+      dispatch(socketConnection(socket));
+      console.log('true', socket.connected); // true
+    });
   }, []);
 
   return (

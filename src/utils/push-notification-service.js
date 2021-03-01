@@ -53,7 +53,7 @@ function onNotificationReceived(notification) {
 function onNotificationClicked() {
   AsyncStorage.getItem('loggedOut').then((result) => {
     if (!result) {
-      navigation.navigate('Notifications');
+      navigation.navigate('Request');
     }
   });
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, TouchableOpacity} from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -11,10 +11,20 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginSuccess} from '../redux/action';
 import {strictValidObjectWithKeys} from '../utils/commonUtils';
+import Switch from 'react-native-switch-pro';
+import {config} from '../utils/config';
+import axios from 'axios';
+
 const DrawerScreen = ({state}) => {
   const nav = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector((v) => v.user.profile.user);
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    const newStatus = user.status === '1' ? true : false;
+    setStatus(newStatus);
+  }, [user]);
 
   const renderHeight = (icon) => {
     switch (icon) {
@@ -50,7 +60,7 @@ const DrawerScreen = ({state}) => {
         await AsyncStorage.multiRemove(keys);
         dispatch(loginSuccess(''));
         nav.reset({
-          routes: [{name: 'Login'}],
+          routes: [{name: 'Auth'}],
         });
       } catch (error) {}
     } else {
@@ -88,6 +98,33 @@ const DrawerScreen = ({state}) => {
       </CustomButton>
     );
   };
+
+  const getStatus = async (changeState = '') => {
+    const token = await AsyncStorage.getItem('token');
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    };
+    axios({
+      method: 'post',
+      url: `${config.Api_Url}/user/broker-status`,
+      headers,
+      data: {
+        status: changeState,
+      },
+    }).then((res) => {
+      const newStatus = res.data === '1' ? true : false;
+      setStatus(newStatus);
+    });
+  };
+
+  const changeStatus = (value) => {
+    if (value) {
+      getStatus('1');
+    } else {
+      getStatus('2');
+    }
+  };
   return (
     <>
       <Block safearea>
@@ -119,7 +156,18 @@ const DrawerScreen = ({state}) => {
             </TouchableOpacity>
           </Block>
         </Block>
-
+        <Block row flex={false} padding={[hp(1.5), wp(5), hp(1.5), wp(5)]}>
+          <Text size={16} semibold>
+            Status
+          </Text>
+          <Switch
+            style={{marginLeft: wp(7)}}
+            value={status}
+            onSyncPress={(value) => {
+              changeStatus(value);
+            }}
+          />
+        </Block>
         <Block padding={[0, wp(2)]} flex={false}>
           <FlatList data={DrawerData} renderItem={_renderItem} />
         </Block>
