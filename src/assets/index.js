@@ -28,5 +28,11 @@ const images = {
   route_icon: require('./icons/route.png'),
   empty_icon: require('./icons/empty.png'),
   background: require('./icons/image_2021_02_25T07_33_37_494Z.png'),
+  google_icon: require('./icons/google-symbol.png'),
+  fb_icon: require('./icons/facebook.png'),
+  trash_icon: require('./icons/trash.png'),
+  phone_icon: require('./icons/phone.png'),
+  email_icon: require('./icons/email.png'),
+  address_icon: require('./icons/home.png'),
 };
 export default images;

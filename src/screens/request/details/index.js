@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, Linking, Platform, ScrollView} from 'react-native';
+import {
+  TouchableOpacity,
+  Linking,
+  Platform,
+  ScrollView,
+  View,
+} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import StarRating from 'react-native-star-rating';
 import Header from '../../../common/header';
@@ -121,7 +127,14 @@ const RequestDetails = ({
           </Text>
           {strictValidString(item.phone_no) && (
             <Block margin={[t1, 0, 0]} flex={false} row>
-              <Icon style={{width: wp(7)}} name="phone" size={20} />
+              <View style={{width: wp(7)}}>
+                <ImageComponent
+                  style={{width: wp(7)}}
+                  name="phone_icon"
+                  height={20}
+                  width={20}
+                />
+              </View>
               <Text size={15} margin={[0, w2]}>
                 {item.phone_no}
               </Text>
@@ -129,7 +142,9 @@ const RequestDetails = ({
           )}
           {strictValidString(item.email) && (
             <Block margin={[t1, 0, 0]} flex={false} row>
-              <Icon style={{width: wp(7)}} name="email" size={20} />
+              <View style={{width: wp(7)}}>
+                <ImageComponent name="email_icon" height={20} width={20} />
+              </View>
               <Text size={15} margin={[0, w2]}>
                 {item.email}
               </Text>
@@ -137,7 +152,9 @@ const RequestDetails = ({
           )}
           {strictValidString(item.address) && (
             <Block margin={[t1, 0, 0]} flex={false} row>
-              <Icon style={{width: wp(7)}} name="map-marker-radius" size={20} />
+              <View style={{width: wp(7)}}>
+                <ImageComponent name="address_icon" height={20} width={20} />
+              </View>
               <Text size={15} margin={[0, w2]}>
                 {item.address}
               </Text>

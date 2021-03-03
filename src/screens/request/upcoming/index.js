@@ -99,7 +99,12 @@ const UpcomingRequest = () => {
               onPress={() => {
                 cancelRequest(item);
               }}>
-              <MaterialIcons name="delete" color={light.accent} size={20} />
+              <ImageComponent
+                name="trash_icon"
+                color={light.accent}
+                height={20}
+                width={20}
+              />
             </TouchableOpacity>
           )}
         </Block>
@@ -116,7 +121,7 @@ const UpcomingRequest = () => {
               </Text>
             </Block>
             <Block margin={[t1, 0]} row center flex={false}>
-              <ImageComponent name="calendar_icon" height="14" width="12.25" />
+              <ImageComponent name="calendar_icon" height="14.5" width="13" />
               <Text margin={[0, w3]} grey body>
                 {formatDate(item.created_at)}
               </Text>

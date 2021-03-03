@@ -34,7 +34,6 @@ const Request = ({navigationState}) => {
       if (msg.type === 'book_broker') {
         dispatch(customerListRequest());
       }
-      console.log('Websocket event received!', msg);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

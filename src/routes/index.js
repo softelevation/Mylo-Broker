@@ -11,16 +11,19 @@ import {navigationRef} from './NavigationService';
 import {useSelector} from 'react-redux';
 import {Alerts, strictValidObjectWithKeys} from '../utils/commonUtils';
 import io from 'socket.io-client';
+import BrokerDetails from '../common/dialog/broker_details';
 
 const RootStack = createStackNavigator();
 
 const Routes = () => {
+  const status = useSelector((state) => state.user.profile.user);
+  const [customerDetails, setCustomerDetails] = React.useState({});
+
   useEffect(() => {
     const socket = io('http://104.131.39.110:3000');
     socket.on('customer_details', (msg) => {
-      console.log(msg, 'msg');
-      const color = msg.type === 0 ? '#39B54A' : light.accent;
-      Alerts(msg.messages, '', color);
+      console.log(msg);
+      setCustomerDetails(msg);
     });
   }, []);
 
@@ -28,6 +31,12 @@ const Routes = () => {
     <NavigationContainer ref={navigationRef}>
       <SafeAreaView style={{flex: 1, backgroundColor: light.secondary}}>
         <StatusBar barStyle="light-content" />
+        {strictValidObjectWithKeys(customerDetails) && (
+          <BrokerDetails
+            brokerDetails={customerDetails}
+            setBrokerDetails={() => setCustomerDetails({})}
+          />
+        )}
         <RootStack.Navigator
           screenOptions={{
             cardStyleInterpolator:

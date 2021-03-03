@@ -60,7 +60,7 @@ const Login = () => {
               <ImageBackground
                 source={images.background}
                 style={{
-                  height: hp(47),
+                  height: hp(50),
                   width: wp(100),
                   alignItems: 'center',
                 }}>
