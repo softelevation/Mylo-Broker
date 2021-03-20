@@ -27,7 +27,7 @@ const images = {
   map_person_icon: require('./icons/mapicon.png'),
   route_icon: require('./icons/route.png'),
   empty_icon: require('./icons/empty.png'),
-  background: require('./icons/image_2021_02_25T07_33_37_494Z.png'),
+  background: require('./icons/gg.png'),
   google_icon: require('./icons/google-symbol.png'),
   fb_icon: require('./icons/facebook.png'),
   trash_icon: require('./icons/trash.png'),
