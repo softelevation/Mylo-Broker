@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import config from './config';
+import {showMessage} from 'react-native-flash-message';
 
 /**
  * Checks if a valid string;
@@ -334,13 +335,13 @@ export const getAssetExternal = (url) => {
   }
   return `${config.imageHost}/asset/thumb/${url}`;
 };
-// export const Alerts = (message, description, color) => {
-//   showMessage({
-//     message,
-//     description,
-//     type: 'success',
-//     backgroundColor: color || '#3F51B5', // background color
-//     color: '#fff', // text color
-//     duration: 1800,
-//   });
-// };
+export const Alerts = (message, description, color) => {
+  showMessage({
+    message,
+    description,
+    type: 'success',
+    backgroundColor: color || '#3F51B5', // background color
+    color: '#fff', // text color
+    duration: 1800,
+  });
+};

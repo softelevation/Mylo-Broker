@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {
   CardStyleInterpolators,
@@ -8,14 +8,35 @@ import {PostLoginScreen, PreLaunchScreen, PreLoginScreen} from './sub-routes';
 import {SafeAreaView, StatusBar} from 'react-native';
 import {light} from '../components/theme/colors';
 import {navigationRef} from './NavigationService';
+import {useSelector} from 'react-redux';
+import {Alerts, strictValidObjectWithKeys} from '../utils/commonUtils';
+import io from 'socket.io-client';
+import BrokerDetails from '../common/dialog/broker_details';
 
 const RootStack = createStackNavigator();
 
-function Routes() {
+const Routes = () => {
+  const status = useSelector((state) => state.user.profile.user);
+  const [customerDetails, setCustomerDetails] = React.useState({});
+
+  useEffect(() => {
+    const socket = io('http://104.131.39.110:3000');
+    socket.on('customer_details', (msg) => {
+      console.log(msg);
+      setCustomerDetails(msg);
+    });
+  }, []);
+
   return (
     <NavigationContainer ref={navigationRef}>
       <SafeAreaView style={{flex: 1, backgroundColor: light.secondary}}>
         <StatusBar barStyle="light-content" />
+        {strictValidObjectWithKeys(customerDetails) && (
+          <BrokerDetails
+            brokerDetails={customerDetails}
+            setBrokerDetails={() => setCustomerDetails({})}
+          />
+        )}
         <RootStack.Navigator
           screenOptions={{
             cardStyleInterpolator:
@@ -30,6 +51,6 @@ function Routes() {
       </SafeAreaView>
     </NavigationContainer>
   );
-}
+};
 
 export default Routes;

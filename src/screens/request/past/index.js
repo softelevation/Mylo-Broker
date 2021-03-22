@@ -80,9 +80,15 @@ const PastRequest = () => {
               padding={[7]}
               borderRadius={5}
               flex={false}
-              color="rgba(87, 185, 86,.3)">
-              <Text transform="uppercase" semibold color="#39B54A" size={12}>
-                {item.status === 'completed' ? 'Completed' : 'Rejected'}
+              color={
+                item.status === 'completed' ? 'rgba(87, 185, 86,.3)' : '#F7E5E0'
+              }>
+              <Text
+                transform="uppercase"
+                semibold
+                color={item.status === 'completed' ? '#39B54A' : '#B92D00'}
+                size={12}>
+                {item.status === 'completed' ? 'Completed' : item.status}
               </Text>
             </Block>
           </Block>

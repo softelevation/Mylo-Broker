@@ -3,18 +3,27 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Block, Button, ImageComponent, Input, Text} from '../../../components';
-import {useNavigation} from '@react-navigation/native';
-import {Keyboard, KeyboardAvoidingView, Platform} from 'react-native';
+import {
+  Block,
+  Button,
+  CustomButton,
+  ImageComponent,
+  Input,
+  Text,
+} from '../../../components';
+import {ImageBackground, Keyboard} from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginRequest} from '../../../redux/action';
+import images from '../../../assets';
+import {t3, w1, w3} from '../../../components/theme/fontsize';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {light} from '../../../components/theme/colors';
 const Login = () => {
-  const nav = useNavigation();
   const dispatch = useDispatch();
-  const isLoad = useSelector((state) => state.user.login.loading);
 
+  const isLoad = useSelector((state) => state.user.login.loading);
   const submitValues = (values, {resetForm}) => {
     dispatch(loginRequest(values.mobile));
     Keyboard.dismiss();
@@ -23,10 +32,9 @@ const Login = () => {
     }, 100);
   };
   return (
-    <KeyboardAvoidingView
-      style={{flex: 1}}
-      keyboardVerticalOffset={hp(5)}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
+      style={{flex: 1, backgroundColor: light.primary}}>
       <Formik
         initialValues={{mobile: ''}}
         onSubmit={submitValues}
@@ -49,34 +57,83 @@ const Login = () => {
         }) => (
           <>
             <Block onStartShouldSetResponder={() => Keyboard.dismiss()} white>
-              <Block margin={[hp(6), 0, 0, 0]} center flex={false}>
-                <ImageComponent
-                  name="logo"
-                  height={100}
-                  width={100}
-                  radius={20}
-                />
-                <Text secondary semibold margin={[hp(4), 0, 0, 0]} h1 center>
-                  Hi.
-                </Text>
-                <Text grey h1 center>
-                  Let's get started
-                </Text>
-              </Block>
+              <ImageBackground
+                source={images.background}
+                style={{
+                  height: hp(53),
+                  width: wp(100),
+                  alignItems: 'center',
+                }}>
+                <Block flex={false} margin={[t3, 0, 0]}>
+                  <ImageComponent
+                    name="logo"
+                    height={100}
+                    width={100}
+                    radius={20}
+                  />
+                </Block>
+              </ImageBackground>
               <Block
                 primary
-                padding={[hp(6), wp(5), hp(2), wp(5)]}
+                padding={[hp(2), wp(4), hp(2), wp(4)]}
                 flex={false}>
                 <Input
-                  placeholder="Enter Mobile Number"
-                  label="Mobile Number"
+                  placeholder="Sign Up with Mobile"
                   keyboardType="number-pad"
                   value={values.mobile}
                   onChangeText={handleChange('mobile')}
                   onBlur={() => setFieldTouched('mobile')}
                   error={touched.mobile && errors.mobile}
                   errorText={touched.mobile && errors.mobile}
+                  style={{paddingVertical: hp(1.5)}}
                 />
+              </Block>
+              <Block margin={[0, w1]} flex={false} row space={'around'}>
+                <CustomButton
+                  shadow
+                  row
+                  center
+                  middle
+                  borderWidth={1}
+                  margin={[0, w1, 0, wp(6)]}
+                  padding={[hp(1)]}
+                  borderColorDeafult
+                  color="primary">
+                  <ImageComponent name="google_icon" height={20} width={20} />
+                  <Text size={14} margin={[0, 0, 0, w3]}>
+                    Google
+                  </Text>
+                </CustomButton>
+                <CustomButton
+                  shadow
+                  row
+                  center
+                  middle
+                  borderColorDeafult
+                  margin={[0, wp(6), 0, w1]}
+                  padding={[hp(1)]}
+                  borderWidth={1}
+                  color="primary">
+                  <ImageComponent name="fb_icon" height={20} width={20} />
+                  <Text size={14} margin={[0, 0, 0, w3]}>
+                    Facebook
+                  </Text>
+                </CustomButton>
+              </Block>
+              <Block
+                margin={[t3, 0]}
+                style={{width: wp(85)}}
+                alignSelf="center">
+                <Text size={14}>
+                  By continuing, you agree that you have read and accept out{' '}
+                  <Text size={14} underline>
+                    T&C
+                  </Text>
+                  s and{' '}
+                  <Text size={14} underline>
+                    Privacy Policy
+                  </Text>
+                </Text>
               </Block>
             </Block>
 
@@ -86,13 +143,13 @@ const Login = () => {
                 disabled={!isValid || !dirty}
                 onPress={handleSubmit}
                 color="secondary">
-                GET OTP
+                CONTINUE
               </Button>
             </Block>
           </>
         )}
       </Formik>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 

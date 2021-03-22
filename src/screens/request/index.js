@@ -5,7 +5,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import Header from '../../common/header';
 import {Block, CustomButton} from '../../components';
@@ -17,6 +17,8 @@ const Request = ({navigationState}) => {
   const dispatch = useDispatch();
   const selected = index;
   const navigation = useNavigation();
+  const socket = useSelector((state) => state.socket.data);
+
   const getValues = (name) => {
     if (name === 'PastRequest') {
       return 'Past';
@@ -24,24 +26,14 @@ const Request = ({navigationState}) => {
     return 'Upcoming';
   };
 
-  // const eventCheck = async () => {
-  //   const res = await subscribeToChat();
-  //   console.log(res, 'res');
-  // };
   useEffect(() => {
     dispatch(profileRequest());
-
     dispatch(customerListRequest());
-    const socket = io('http://104.131.39.110:3000');
-    console.log('Connecting socket...');
-    socket.on('connect', (a) => {
-      console.log('true', socket.connected); // true
-    });
+
     socket.on('refresh_feed', (msg) => {
       if (msg.type === 'book_broker') {
         dispatch(customerListRequest());
       }
-      console.log('Websocket event received!', msg);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
