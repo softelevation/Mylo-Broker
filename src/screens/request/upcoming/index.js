@@ -50,6 +50,24 @@ const UpcomingRequest = () => {
     socket.emit('request', {id, status, token});
   };
 
+  const acceptRequest = (id, status) => {
+    Alert.alert(
+      'Are you sure?',
+      'You want to accept this request',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Yes, do it',
+          onPress: () => onhandleDelete(id, status),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   const cancelRequest = (item) => {
     Alert.alert(
       'Are you sure?',
@@ -61,6 +79,23 @@ const UpcomingRequest = () => {
         {
           text: 'Yes, do it',
           onPress: () => onhandleDelete(item.id, 'cancelled'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const rejectRequest = (id, status) => {
+    Alert.alert(
+      'Are you sure?',
+      'You want to rejected this request',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Yes, do it',
+          onPress: () => onhandleDelete(id, status),
           style: 'cancel',
         },
       ],
@@ -137,7 +172,7 @@ const UpcomingRequest = () => {
             {item.status === 'pending' ? (
               <>
                 <CustomButton
-                  onPress={() => AcceptDeclineRequest(item.id, 'in_progress')}
+                  onPress={() => acceptRequest(item.id, 'in_progress')}
                   padding={[t1, w6]}
                   borderRadius={20}
                   flex={false}
@@ -149,7 +184,7 @@ const UpcomingRequest = () => {
                   </Text>
                 </CustomButton>
                 <CustomButton
-                  onPress={() => AcceptDeclineRequest(item.id, 'rejected')}
+                  onPress={() => rejectRequest(item.id, 'rejected')}
                   padding={[t1, w6]}
                   borderRadius={20}
                   margin={[t2, 0]}

@@ -1,12 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Block, ImageComponent, Text} from '../../components';
 import Header from '../../common/header';
-import {FlatList} from 'react-native';
+import {BackHandler, FlatList} from 'react-native';
 import {t2, t1, w3, w5} from '../../components/theme/fontsize';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
+import {handleBackPress} from '../../utils/commonAppUtils';
 // import { Container } from './styles';
 
 const Notifications = () => {
+  useEffect(() => {
+    const BackButton = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress,
+    );
+    return () => BackButton.remove();
+  }, []);
+
   const _renderItem = ({item}) => {
     return (
       <>

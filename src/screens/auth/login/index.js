@@ -17,9 +17,11 @@ import * as yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginRequest} from '../../../redux/action';
 import images from '../../../assets';
-import {t3, w1, w3} from '../../../components/theme/fontsize';
+import {t1, t3, w1, w3} from '../../../components/theme/fontsize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {light} from '../../../components/theme/colors';
+import * as Animatable from 'react-native-animatable';
+
 const Login = () => {
   const dispatch = useDispatch();
 
@@ -30,6 +32,20 @@ const Login = () => {
     setTimeout(() => {
       resetForm();
     }, 100);
+  };
+  const logoanimation = {
+    from: {
+      top: hp(50),
+      opacity: 0.5,
+      height: 60,
+      width: 60,
+    },
+    to: {
+      top: hp(8),
+      opacity: 1,
+      height: 100,
+      width: 100,
+    },
   };
   return (
     <KeyboardAwareScrollView
@@ -65,17 +81,20 @@ const Login = () => {
                   alignItems: 'center',
                 }}>
                 <Block flex={false} margin={[t3, 0, 0]}>
-                  <ImageComponent
-                    name="logo"
-                    height={100}
-                    width={100}
-                    radius={20}
+                  <Animatable.Image
+                    animation={logoanimation}
+                    delay={500}
+                    duration={1200}
+                    source={images.logo}
+                    style={{
+                      borderRadius: 20,
+                    }}
                   />
                 </Block>
               </ImageBackground>
               <Block
                 primary
-                padding={[hp(2), wp(4), hp(2), wp(4)]}
+                padding={[hp(4), wp(4), hp(2), wp(4)]}
                 flex={false}>
                 <Input
                   placeholder="Sign Up with Mobile"
@@ -88,13 +107,14 @@ const Login = () => {
                   style={{paddingVertical: hp(1.5)}}
                 />
               </Block>
-              <Block margin={[0, w1]} flex={false} row space={'around'}>
+              {/* <Block margin={[0, w1]} flex={false} row space={'around'}>
                 <CustomButton
                   shadow
                   row
                   center
                   middle
                   borderWidth={1}
+                  borderRadius={10}
                   margin={[0, w1, 0, wp(6)]}
                   padding={[hp(1)]}
                   borderColorDeafult
@@ -110,6 +130,7 @@ const Login = () => {
                   center
                   middle
                   borderColorDeafult
+                  borderRadius={10}
                   margin={[0, wp(6), 0, w1]}
                   padding={[hp(1)]}
                   borderWidth={1}
@@ -119,9 +140,9 @@ const Login = () => {
                     Facebook
                   </Text>
                 </CustomButton>
-              </Block>
+              </Block> */}
               <Block
-                margin={[t3, 0]}
+                margin={[t1, 0]}
                 style={{width: wp(85)}}
                 alignSelf="center">
                 <Text size={14}>

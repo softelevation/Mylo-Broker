@@ -18,11 +18,15 @@ const Splash = () => {
     if (strictValidString(token)) {
       dispatch(loginSuccess(token));
       setTimeout(() => {
-        nav.navigate('Home');
+        nav.reset({
+          routes: [{name: 'Home'}],
+        });
       }, 3000);
     } else {
       setTimeout(() => {
-        nav.navigate('Auth');
+        nav.reset({
+          routes: [{name: 'Auth'}],
+        });
       }, 3000);
     }
   };

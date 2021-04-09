@@ -11,6 +11,7 @@ import {profileRequest, profileUpdateRequest} from '../../../redux/action';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ActivityLoader from '../../../components/activityLoader';
+import {strictValidString} from '../../../utils/commonUtils';
 const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.profile.user);
@@ -22,6 +23,7 @@ const Profile = () => {
       name: values.name,
       address: values.address,
       email: values.email,
+      mobile_number: user.phone_no || values.mobile_number,
     };
     dispatch(profileUpdateRequest(data));
   };
@@ -93,7 +95,7 @@ const Profile = () => {
                     onBlur={() => setFieldTouched('mobile_number')}
                     error={touched.mobile_number && errors.mobile_number}
                     errorText={touched.mobile_number && errors.mobile_number}
-                    editable={false}
+                    editable={!strictValidString(user.phone_no)}
                   />
                   <Input
                     label="Address"

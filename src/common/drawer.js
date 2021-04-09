@@ -9,7 +9,11 @@ import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {DrawerData} from '../utils/static-data';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
-import {customerListRequest, loginSuccess} from '../redux/action';
+import {
+  customerListRequest,
+  loginSuccess,
+  profileRequest,
+} from '../redux/action';
 import {strictValidObjectWithKeys} from '../utils/commonUtils';
 import Switch from 'react-native-switch-pro';
 import {config} from '../utils/config';
@@ -101,6 +105,7 @@ const DrawerScreen = ({state}) => {
     }).then((res) => {
       const newStatus = res.data === '1' ? true : false;
       dispatch(customerListRequest());
+      dispatch(profileRequest());
       setStatus(newStatus);
     });
   };

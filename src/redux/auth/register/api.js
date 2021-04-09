@@ -14,6 +14,7 @@ export const Api = async (data) => {
       phone_no: phone_no,
       otp: otp,
       token: pushTokenData.token,
+      social_type: 'N',
     },
   });
 };
