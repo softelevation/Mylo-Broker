@@ -60,7 +60,7 @@ const Register = ({
                   {counter}
                 </Text>
               )}
-              <Text h3>Resend Otp</Text>
+              <Text h3>Resend OTP</Text>
             </Block>
             <Text
               onPress={() => nav.goBack()}

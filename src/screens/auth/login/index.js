@@ -98,6 +98,7 @@ const Login = () => {
                 flex={false}>
                 <Input
                   placeholder="Sign Up with Mobile"
+                  maxLength={10}
                   keyboardType="number-pad"
                   value={values.mobile}
                   onChangeText={handleChange('mobile')}

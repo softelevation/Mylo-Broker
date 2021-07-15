@@ -1,6 +1,6 @@
 export const DrawerData = [
   {
-    name: 'My Request',
+    name: 'My Requests',
     icon: 'my_request_icon',
     nav: 'Request',
   },
