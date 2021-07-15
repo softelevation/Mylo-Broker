@@ -12,6 +12,8 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import ActivityLoader from '../../../components/activityLoader';
 import {strictValidString} from '../../../utils/commonUtils';
+import {useNavigation} from '@react-navigation/native';
+import useHardwareBack from '../../../components/usehardwareBack';
 const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.profile.user);
@@ -27,6 +29,14 @@ const Profile = () => {
     };
     dispatch(profileUpdateRequest(data));
   };
+
+  const navigation = useNavigation();
+  const handleBack = () => {
+    navigation.navigate('Maps');
+    return true;
+  };
+
+  useHardwareBack(handleBack);
   return (
     <Block safearea white>
       {isLoad && <ActivityLoader />}

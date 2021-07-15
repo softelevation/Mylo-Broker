@@ -8,6 +8,7 @@ import {light} from '../../components/theme/colors';
 import {loginSuccess, socketConnection} from '../../redux/action';
 import {strictValidString} from '../../utils/commonUtils';
 import io from 'socket.io-client';
+import messaging from '@react-native-firebase/messaging';
 
 const Splash = () => {
   const nav = useNavigation();
@@ -38,6 +39,31 @@ const Splash = () => {
       console.log('true', socket.connected); // true
     });
   }, []);
+
+  useEffect(() => {
+    requestUserPermission();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      getFcmToken();
+    }
+  };
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      console.log('Your Firebase Token is:', fcmToken);
+    } else {
+      console.log('Failed', 'No token received');
+    }
+  };
 
   return (
     <Block safearea center middle secondary>

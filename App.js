@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {logger} from 'redux-logger';
 import rootreducer from './src/redux/reducer';
 import rootSaga from './src/redux/saga';
-import {configurePush} from './src/utils/push-notification-service';
+// import {configurePush} from './src/utils/push-notification-service';
 import FlashMessage from 'react-native-flash-message';
 import NetInfo from '@react-native-community/netinfo';
 import {Alert} from 'react-native';
@@ -20,7 +20,7 @@ sagaMiddleware.run(rootSaga);
 
 const App = () => {
   useEffect(() => {
-    configurePush();
+    // configurePush();
   });
   useEffect(() => {
     NetInfo.fetch().then((state) => {

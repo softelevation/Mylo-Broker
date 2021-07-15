@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {config} from '../../../utils/config';
-import {pushTokenData} from '../../../utils/push-notification-service';
+import messaging from '@react-native-firebase/messaging';
 export const Api = async (data) => {
   const {phone_no, otp} = data;
+  const fcmToken = await messaging().getToken();
   const headers = {
     'Content-Type': 'application/json',
   };
@@ -13,7 +14,7 @@ export const Api = async (data) => {
     data: {
       phone_no: phone_no,
       otp: otp,
-      token: pushTokenData.token,
+      token: fcmToken,
       social_type: 'N',
     },
   });
