@@ -1,33 +1,78 @@
 {
   "project_info": {
-    "project_number": "29496895320",
-    "project_id": "mylo-7f312",
-    "storage_bucket": "mylo-7f312.appspot.com"
+    "project_number": "637350181008",
+    "project_id": "mylo-customer-4709e",
+    "storage_bucket": "mylo-customer-4709e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:29496895320:android:640ee3a4caa8e72c48272d",
+        "mobilesdk_app_id": "1:637350181008:android:89993db68d73018c608015",
         "android_client_info": {
-          "package_name": "com.mylo"
+          "package_name": "com.brokerapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "29496895320-a1uaqmm2speva0mf5bnghmkpe13cq09d.apps.googleusercontent.com",
+          "client_id": "637350181008-t87ur0tiooht75trgqqjcr69ros0ijv7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brokerapp",
+            "certificate_hash": "73a177a53425cd0e62e59a8ed804f67c15592be4"
+          }
+        },
+        {
+          "client_id": "637350181008-ie54bms655da27s0fssp49patnif3gv6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAGntyAbtD5p5wtNOA0Yh0fxO6lg3RsVDc"
+          "current_key": "AIzaSyCLrUOWT7HH4AZh-SswSzonRmVxGMj8vFc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "29496895320-a1uaqmm2speva0mf5bnghmkpe13cq09d.apps.googleusercontent.com",
+              "client_id": "637350181008-ie54bms655da27s0fssp49patnif3gv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637350181008:android:92f62a0dda9c0a85608015",
+        "android_client_info": {
+          "package_name": "com.mylo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637350181008-ubf334v8fhc2obfom7orccnuvsio27tr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mylo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "637350181008-ie54bms655da27s0fssp49patnif3gv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLrUOWT7HH4AZh-SswSzonRmVxGMj8vFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637350181008-ie54bms655da27s0fssp49patnif3gv6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -12,6 +12,7 @@ import {useSelector} from 'react-redux';
 import {Alerts, strictValidObjectWithKeys} from '../utils/commonUtils';
 import io from 'socket.io-client';
 import BrokerDetails from '../common/dialog/broker_details';
+import messaging from '@react-native-firebase/messaging';
 
 const RootStack = createStackNavigator();
 
@@ -27,6 +28,20 @@ const Routes = () => {
         setCustomerDetails(msg);
       }
     });
+  }, []);
+  React.useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      console.log(remoteMessage);
+      Alerts(
+        remoteMessage.notification.title,
+        remoteMessage.notification.body,
+        light.success,
+      );
+    });
+    return unsubscribe;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

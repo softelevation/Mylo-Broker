@@ -71,7 +71,7 @@ const PastRequest = () => {
             <Block margin={[t1, 0]} row center flex={false}>
               <ImageComponent name="location_icon" height="14" width="14" />
               <Text margin={[0, w3]} grey body>
-                {item.address}
+                {item.location}
               </Text>
             </Block>
           </Block>
