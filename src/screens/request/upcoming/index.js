@@ -17,6 +17,8 @@ import {customerListRequest} from '../../../redux/action';
 import AsyncStorage from '@react-native-community/async-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {light} from '../../../components/theme/colors';
+import TimeZone from 'react-native-timezone';
+
 const UpcomingRequest = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const UpcomingRequest = () => {
       }
       console.log('Websocket event received!', msg);
     });
+    getTimeZone()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -49,6 +52,11 @@ const UpcomingRequest = () => {
     const token = await AsyncStorage.getItem('token');
     socket.emit('request', {id, status, token});
   };
+
+  const getTimeZone = async() => {
+    const timeZone = await TimeZone.getTimeZone().then(zone => zone);
+    console.log( timeZone );
+   }
 
   const acceptRequest = (id, status) => {
     Alert.alert(
