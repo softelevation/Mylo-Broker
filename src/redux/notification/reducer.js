@@ -1,32 +1,32 @@
 import {ActionConstants} from '../constants';
 const initialState = {
   loading: false,
-  data: {},
+  data: [],
   error: '',
 };
-export function socket(state = initialState, action) {
+export function notification(state = initialState, action) {
   switch (action.type) {
-    case ActionConstants.SOCKET_CONNECTION:
+    case ActionConstants.NOTIFICATION_REQUEST:
       return {
         ...state,
         loading: true,
-        data: action.payload,
       };
-    case ActionConstants.SOCKET_DISCONNECT:
+    case ActionConstants.NOTIFICATION_SUCCESS:
       return {
         ...state,
         loading: false,
-        data: [],
+        data: action.data,
       };
-    case ActionConstants.SOCKET_FLUSH:
+    case ActionConstants.NOTIFICATION_ERROR:
       return {
         ...state,
         loading: false,
-        data: [],
+        error: action.error,
       };
 
     default:
       return state;
   }
 }
-export default socket;
+
+export default notification;

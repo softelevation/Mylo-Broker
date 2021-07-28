@@ -27,7 +27,8 @@ const Login = () => {
 
   const isLoad = useSelector((state) => state.user.login.loading);
   const submitValues = (values, {resetForm}) => {
-    dispatch(loginRequest(values.mobile));
+    // dispatch(loginRequest(values.mobile));
+    dispatch(loginRequest(`+61${values.mobile}`));
     Keyboard.dismiss();
     setTimeout(() => {
       resetForm();

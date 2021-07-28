@@ -14,6 +14,7 @@ const Header = ({
   menu,
   menuColor,
   navigation,
+  rightPress,
 }) => {
   const nav = useNavigation();
   return (
@@ -52,9 +53,9 @@ const Header = ({
           {centerText}
         </Text>
       </Block>
-      <Block right middle>
+      <CustomButton onPress={rightPress} right middle>
         <Text white>{rightText}</Text>
-      </Block>
+      </CustomButton>
     </Block>
   );
 };

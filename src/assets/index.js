@@ -34,5 +34,6 @@ const images = {
   phone_icon: require('./icons/phone.png'),
   email_icon: require('./icons/email.png'),
   address_icon: require('./icons/home.png'),
+  close_icon: require('./icons/close.png'),
 };
 export default images;

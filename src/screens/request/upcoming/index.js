@@ -34,7 +34,7 @@ const UpcomingRequest = () => {
       }
       console.log('Websocket event received!', msg);
     });
-    getTimeZone()
+    getTimeZone();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -53,10 +53,10 @@ const UpcomingRequest = () => {
     socket.emit('request', {id, status, token});
   };
 
-  const getTimeZone = async() => {
-    const timeZone = await TimeZone.getTimeZone().then(zone => zone);
-    console.log( timeZone );
-   }
+  const getTimeZone = async () => {
+    const timeZone = await TimeZone.getTimeZone().then((zone) => zone);
+    console.log(timeZone);
+  };
 
   const acceptRequest = (id, status) => {
     Alert.alert(

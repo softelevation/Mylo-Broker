@@ -1,60 +1,98 @@
-import React, {useEffect} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import {Block, ImageComponent, Text} from '../../components';
 import Header from '../../common/header';
-import {BackHandler, FlatList} from 'react-native';
+import {Alert, FlatList} from 'react-native';
 import {t2, t1, w3, w5} from '../../components/theme/fontsize';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
-import {handleBackPress} from '../../utils/commonAppUtils';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import useHardwareBack from '../../components/usehardwareBack';
-// import { Container } from './styles';
+import {useDispatch, useSelector} from 'react-redux';
+import {notificationRequest} from '../../redux/notification/action';
+import EmptyFile from '../../components/emptyFile';
+import {light} from '../../components/theme/colors';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Notifications = () => {
   const navigation = useNavigation();
+  const [data, loading, socket] = useSelector((v) => [
+    v.notification.data,
+    v.notification.loading,
+    v.socket.data,
+  ]);
+  const dispatch = useDispatch();
   const handleBack = () => {
     navigation.navigate('Maps');
     return true;
   };
-
+  console.log(data, loading, 'data, loading');
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(notificationRequest());
+    }, []),
+  );
   useHardwareBack(handleBack);
 
+  const onhandleDelete = async (id, status) => {
+    const token = await AsyncStorage.getItem('token');
+    socket.emit('notification_badge', {token: token, id: id});
+    console.log(token, id);
+    dispatch(notificationRequest());
+  };
+  const cancelRequest = (item) => {
+    Alert.alert(
+      'Are you sure?',
+      'You want to clear this notification',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Yes, do it',
+          onPress: () => onhandleDelete(item.id),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
+  const clearRequest = () => {
+    Alert.alert(
+      'Are you sure?',
+      'You want to clear all notification',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Yes, do it',
+          onPress: () => onhandleDelete('all'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const renderCloseIcon = (item) => {
+    return (
+      <TouchableOpacity onPress={() => cancelRequest(item)}>
+        <ImageComponent
+          name="close_icon"
+          height={14}
+          width={14}
+          color={light.warning}
+        />
+      </TouchableOpacity>
+    );
+  };
   const _renderItem = ({item}) => {
     return (
       <>
-        {item === 'Message' && (
-          <Block
-            borderRadius={10}
-            shadow
-            white
-            flex={false}
-            margin={[t1, w5]}
-            padding={[t2]}>
-            <Block flex={false} row>
-              <ImageComponent
-                name="avatar"
-                height="50"
-                width="50"
-                radius={50}
-              />
-              <Block margin={[0, w3, 0, w3]}>
-                <Text header semibold>
-                  Addison
-                </Text>
-                <Text
-                  margin={[heightPercentageToDP(0.5), 0, 0, 0]}
-                  grey
-                  caption>
-                  11:00 • 29/07/2020
-                </Text>
-                <Text margin={[t1, 0, 0, 0]} grey body>
-                  I have arrived at the location. Could you please open the
-                  door?
-                </Text>
-              </Block>
-            </Block>
-          </Block>
-        )}
-        {item === 'Accepted' && (
+        {(item.status === 'accepted' ||
+          item.status === 'pending' ||
+          item.status === 'in_progress') && (
           <Block
             borderRadius={10}
             shadow
@@ -68,22 +106,17 @@ const Notifications = () => {
               </Block>
               <Block margin={[0, w3, 0, w3]}>
                 <Text secondary body semibold>
-                  Booking #1121 accepted
-                </Text>
-                <Text
-                  margin={[heightPercentageToDP(0.5), 0, 0, 0]}
-                  grey
-                  caption>
-                  10:44 • 29/07/2020
+                  Booking #{item.booking_id} accepted
                 </Text>
                 <Text margin={[t1, 0, 0, 0]} grey body>
-                  Addison Mccray accepted your request
+                  {item.message}
                 </Text>
               </Block>
+              {renderCloseIcon(item)}
             </Block>
           </Block>
         )}
-        {item === 'Accepted' && (
+        {(item.status === 'rejected' || item.status === 'cancelled') && (
           <Block
             borderRadius={10}
             shadow
@@ -93,21 +126,15 @@ const Notifications = () => {
             padding={[t2]}>
             <Block baseline flex={false} row>
               <ImageComponent name="rejected_icon" height="13" width="13" />
-
               <Block margin={[0, w3, 0, w3]}>
                 <Text accent body semibold>
-                  Booking #1122 rejected
-                </Text>
-                <Text
-                  margin={[heightPercentageToDP(0.5), 0, 0, 0]}
-                  grey
-                  caption>
-                  10:44 • 29/07/2020
+                  Booking #{item.booking_id} rejected
                 </Text>
                 <Text margin={[t1, 0, 0, 0]} grey body>
-                  Addison Mccray rejected your request
+                  {item.message}
                 </Text>
               </Block>
+              {renderCloseIcon()}
             </Block>
           </Block>
         )}
@@ -116,23 +143,21 @@ const Notifications = () => {
   };
   return (
     <Block white safearea>
-      <Header centerText={'Notifications'} />
+      <Header
+        rightPress={() => clearRequest()}
+        rightText="Clear All"
+        centerText={'Notifications'}
+      />
       <FlatList
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: t2}}
-        data={[
-          'Message',
-          'Accepted',
-          'Rejected',
-          'Message',
-          'Accepted',
-          'Message',
-          'Rejected',
-        ]}
+        contentContainerStyle={containerStyle}
+        data={data}
         renderItem={_renderItem}
+        ListEmptyComponent={<EmptyFile text="No Notifications" />}
       />
     </Block>
   );
 };
+const containerStyle = {paddingBottom: t2, flexGrow: 1};
 
 export default Notifications;
