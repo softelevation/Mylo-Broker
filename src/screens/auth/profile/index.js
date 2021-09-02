@@ -7,7 +7,7 @@ import {Block, Button, ImageComponent, Input, Text} from '../../../components';
 import Header from '../../../common/header';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
-import {profileRequest, profileUpdateRequest} from '../../../redux/action';
+import {profileUpdateRequest} from '../../../redux/action';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ActivityLoader from '../../../components/activityLoader';
@@ -42,6 +42,7 @@ const Profile = () => {
       height: 400,
       cropping: true,
       includeBase64: true,
+      compressImageQuality: 0.5,
       cropperCircleOverlay: true,
     }).then((v) => {
       console.log(v);
@@ -56,6 +57,7 @@ const Profile = () => {
       includeBase64: true,
       useFrontCamera: true,
       cropping: true,
+      compressImageQuality: 0.5,
     }).then((v) => {
       console.log(v);
       setImage(v);
