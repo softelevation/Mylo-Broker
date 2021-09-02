@@ -58,7 +58,7 @@ const Login = () => {
         validationSchema={yup.object().shape({
           mobile: yup
             .string()
-            .min(10)
+            .min(8)
             .max(15)
             .required('Mobile Number is Required'),
         })}>

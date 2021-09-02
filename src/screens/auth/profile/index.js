@@ -24,18 +24,18 @@ const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.profile.user);
   const isLoad = useSelector((state) => state.user.profile.loading);
-
+  const [image, setImage] = useState('');
   const submitValues = (values) => {
-    console.log('hit');
     const data = {
       name: values.name,
       address: values.address,
       email: values.email,
       mobile_number: user.phone_no || values.mobile_number,
+      image: image.data,
     };
     dispatch(profileUpdateRequest(data));
   };
-  const [image, setImage] = useState('');
+
   const choosePhoto = () => {
     ImagePicker.openPicker({
       width: 300,
@@ -107,7 +107,7 @@ const Profile = () => {
   };
   const renderProfile = () => {
     return (
-      <Block alignSelf="center" flex={false}>
+      <Block center flex={false}>
         <ImageComponent
           isURL={renderProfileImagePath() !== 'default_icon'}
           name={renderProfileImagePath()}

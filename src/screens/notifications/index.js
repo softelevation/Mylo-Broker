@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
-import {Block, ImageComponent, Text} from '../../components';
+import React, {useEffect, useState} from 'react';
+import {Block, CustomButton, ImageComponent, Text} from '../../components';
 import Header from '../../common/header';
-import {Alert, FlatList} from 'react-native';
+import {Alert, FlatList, RefreshControl} from 'react-native';
 import {t2, t1, w3, w5} from '../../components/theme/fontsize';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -13,9 +13,13 @@ import EmptyFile from '../../components/emptyFile';
 import {light} from '../../components/theme/colors';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
+import {strictValidArrayWithLength} from '../../utils/commonUtils';
+import ActivityLoader from '../../components/activityLoader';
 
 const Notifications = () => {
   const navigation = useNavigation();
+  const [refreshing, setrefreshing] = useState(false);
+  const userId = useSelector((state) => state.user.profile.user.id);
   const [data, loading, socket] = useSelector((v) => [
     v.notification.data,
     v.notification.loading,
@@ -26,12 +30,21 @@ const Notifications = () => {
     navigation.navigate('Maps');
     return true;
   };
-  console.log(data, loading, 'data, loading');
   useFocusEffect(
     React.useCallback(() => {
       dispatch(notificationRequest());
     }, []),
   );
+
+  useEffect(() => {
+    socket.on(`refresh_feed_${userId}`, (msg) => {
+      console.log(msg, 'check notificaton');
+      if (msg.type === 'notification') {
+        dispatch(notificationRequest());
+      }
+    });
+  }, []);
+
   useHardwareBack(handleBack);
 
   const onhandleDelete = async (id, status) => {
@@ -75,16 +88,25 @@ const Notifications = () => {
       {cancelable: false},
     );
   };
+
+  const onRefresh = () => {
+    setrefreshing(true);
+    setTimeout(() => {
+      setrefreshing(false);
+    }, 2000);
+    dispatch(notificationRequest());
+  };
+
   const renderCloseIcon = (item) => {
     return (
-      <TouchableOpacity onPress={() => cancelRequest(item)}>
+      <CustomButton onPress={() => cancelRequest(item)}>
         <ImageComponent
           name="close_icon"
-          height={14}
-          width={14}
+          height={17}
+          width={17}
           color={light.warning}
         />
-      </TouchableOpacity>
+      </CustomButton>
     );
   };
   const _renderItem = ({item}) => {
@@ -93,7 +115,14 @@ const Notifications = () => {
         {(item.status === 'accepted' ||
           item.status === 'pending' ||
           item.status === 'in_progress') && (
-          <Block
+          <CustomButton
+            // disabled={item.status === 'pending'}
+            onPress={() =>
+              navigation.navigate('RequestDetails', {
+                item: item.booking_detail,
+              })
+            }
+            // color={item.status === 'pending' ? 'red' : 'green'}
             borderRadius={10}
             shadow
             white
@@ -114,7 +143,7 @@ const Notifications = () => {
               </Block>
               {renderCloseIcon(item)}
             </Block>
-          </Block>
+          </CustomButton>
         )}
         {(item.status === 'rejected' || item.status === 'cancelled') && (
           <Block
@@ -143,12 +172,17 @@ const Notifications = () => {
   };
   return (
     <Block white safearea>
+      {!refreshing && loading && <ActivityLoader />}
+
       <Header
         rightPress={() => clearRequest()}
-        rightText="Clear All"
+        rightText={strictValidArrayWithLength(data) ? 'Clear All' : ''}
         centerText={'Notifications'}
       />
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         showsVerticalScrollIndicator={false}
         contentContainerStyle={containerStyle}
         data={data}

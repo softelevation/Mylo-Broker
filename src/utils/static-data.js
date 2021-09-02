@@ -17,12 +17,12 @@ export const DrawerData = [
   {
     name: 'Privacy Policy',
     icon: 'privacy_icon',
-    nav: '',
+    nav: 'Privacy',
   },
   {
     name: 'Terms & Conditions',
     icon: 'terms_icon',
-    nav: '',
+    nav: 'Terms',
   },
   {
     name: 'Logout',

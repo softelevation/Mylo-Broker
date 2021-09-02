@@ -14,7 +14,7 @@ export const Api = async () => {
   });
 };
 export const updateApi = async (data) => {
-  const {name, email, address} = data;
+  const {name, email, address, image} = data;
   const token = await AsyncStorage.getItem('token');
   const headers = {
     'Content-Type': 'application/json',
@@ -28,6 +28,7 @@ export const updateApi = async (data) => {
       name: name,
       email: email,
       address: address,
+      image: image,
     },
   });
 };

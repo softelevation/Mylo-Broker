@@ -36,7 +36,7 @@ const App = () => {
         'It seems that you are offline. Please check your internet connection',
       );
     } else {
-      Alerts('Success', 'You are online!', light.success);
+      // Alerts('Success', 'You are online!', light.success);
     }
   };
 

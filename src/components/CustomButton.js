@@ -10,7 +10,7 @@ import {light} from './theme/colors';
 const componentStyles = () => {
   return StyleSheet.create({
     block: {
-      flex: 1,
+      // flex: 1,
     },
     baseline: {
       alignItems: 'baseline',

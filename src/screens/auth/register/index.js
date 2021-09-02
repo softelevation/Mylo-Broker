@@ -6,9 +6,16 @@ import {
 import {Block, Button, ImageComponent, Input, Text} from '../../../components';
 import {useNavigation} from '@react-navigation/native';
 import Otp from '../../../components/otp';
-import {Alert, Keyboard, KeyboardAvoidingView, Platform} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {registerRequest} from '../../../redux/action';
+import {loginRequest, registerRequest} from '../../../redux/action';
 const Register = ({
   route: {
     params: {phone_no},
@@ -19,6 +26,7 @@ const Register = ({
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const isLoad = useSelector((state) => state.user.register.loading);
+  const isResendLoad = useSelector((state) => state.user.login.loading);
 
   useEffect(() => {
     const timer =
@@ -33,6 +41,10 @@ const Register = ({
       phone_no: phone_no,
     };
     dispatch(registerRequest(data));
+  };
+
+  const resendOtp = () => {
+    dispatch(loginRequest(phone_no));
   };
   return (
     <KeyboardAvoidingView
@@ -60,7 +72,13 @@ const Register = ({
                   {counter}
                 </Text>
               )}
-              <Text h3>Resend OTP</Text>
+              {isResendLoad ? (
+                <ActivityIndicator size="small" color="#000" />
+              ) : (
+                <TouchableOpacity onPress={() => resendOtp()}>
+                  <Text h3>Resend OTP</Text>
+                </TouchableOpacity>
+              )}
             </Block>
             <Text
               onPress={() => nav.goBack()}

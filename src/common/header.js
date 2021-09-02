@@ -27,7 +27,7 @@ const Header = ({
       flex={false}>
       {leftIcon ? (
         <CustomButton
-          flex={1}
+          // flex={1}
           left
           middle
           onPress={() =>

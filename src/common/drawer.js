@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, TouchableOpacity} from 'react-native';
+import {Alert, FlatList, TouchableOpacity} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {Block, CustomButton, ImageComponent, Text} from '../components';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {DrawerData} from '../utils/static-data';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,12 +14,17 @@ import {
   loginSuccess,
   profileRequest,
 } from '../redux/action';
-import {strictValidObjectWithKeys} from '../utils/commonUtils';
+import {
+  strictValidObjectWithKeys,
+  strictValidString,
+} from '../utils/commonUtils';
 import Switch from 'react-native-switch-pro';
 import {config} from '../utils/config';
 import axios from 'axios';
 import {Alerts} from '../utils/commonUtils';
 import {light} from '../components/theme/colors';
+import messaging from '@react-native-firebase/messaging';
+
 const DrawerScreen = ({state}) => {
   const nav = useNavigation();
   const dispatch = useDispatch();
@@ -58,13 +63,13 @@ const DrawerScreen = ({state}) => {
     }
   };
 
-  const navigateHelpers = async (val) => {
-    if (val === 'Login') {
-      logout();
-    } else {
-      nav.navigate(val);
-    }
-  };
+  // const navigateHelpers = async (val) => {
+  //   if (val === 'Login') {
+  //     logout();
+  //   } else {
+  //     nav.navigate(val);
+  //   }
+  // };
 
   const _renderItem = ({item, index}) => {
     return (
@@ -109,7 +114,8 @@ const DrawerScreen = ({state}) => {
       setStatus(newStatus);
     });
   };
-  const logout = async () => {
+
+  const onLogout = async () => {
     const token = await AsyncStorage.getItem('token');
     const headers = {
       'Content-Type': 'application/json',
@@ -120,16 +126,41 @@ const DrawerScreen = ({state}) => {
       url: `${config.Api_Url}/user/log-out`,
       headers,
     });
-    console.log(res, 'res');
     if (res.data.status === 1) {
       const keys = await AsyncStorage.getAllKeys();
       await AsyncStorage.multiRemove(keys);
+      await messaging().deleteToken(undefined, '*');
       dispatch(loginSuccess(''));
       nav.reset({
         routes: [{name: 'Auth'}],
       });
     } else {
       alert('invalid ');
+    }
+  };
+  const navigateHelpers = async (val) => {
+    if (val === 'Login') {
+      try {
+        Alert.alert(
+          '',
+          'Are you sure you want to log out ?',
+          [
+            {
+              text: 'No',
+            },
+            {
+              text: 'Yes',
+              onPress: () => onLogout(),
+              style: 'cancel',
+            },
+          ],
+          {cancelable: false},
+        );
+      } catch (error) {}
+    } else {
+      nav.reset({
+        routes: [{name: val}],
+      });
     }
   };
 
@@ -157,12 +188,23 @@ const DrawerScreen = ({state}) => {
               borderWidth={1}
               borderColor="#fff"
               borderRadius={60}>
-              <ImageComponent
-                name="avatar"
-                height="80"
-                width="80"
-                radius={80}
-              />
+              {strictValidObjectWithKeys(user) &&
+              strictValidString(user.image) ? (
+                <ImageComponent
+                  isURL
+                  name={`${config.Api_Url}/${user.image}`}
+                  height="80"
+                  width="80"
+                  radius={80}
+                />
+              ) : (
+                <ImageComponent
+                  name="avatar"
+                  height="80"
+                  width="80"
+                  radius={80}
+                />
+              )}
             </Block>
             <Block margin={[0, wp(4), 0, wp(4)]} flex={false}>
               <Text white bold>

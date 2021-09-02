@@ -6,19 +6,18 @@ import {
 import Splash from '../screens/splash';
 import Login from '../screens/auth/login';
 import Register from '../screens/auth/register';
-import Forgot from '../screens/auth/forgot';
-import Home from '../screens/Home';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import DrawerScreen from '../common/drawer';
 import Profile from '../screens/auth/profile';
-import BecomeBroker from '../screens/become-broker';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Request from '../screens/request';
 import UpcomingRequest from '../screens/request/upcoming';
 import PastRequest from '../screens/request/past';
 import Notifications from '../screens/notifications';
 import RequestDetails from '../screens/request/details/index';
+import Terms from '../screens/help/terms';
+import Privacy from '../screens/help/privacy';
 const Tab = createMaterialTopTabNavigator();
 const PostLoginStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -91,6 +90,23 @@ const HomeStack = () => (
     />
   </PostLoginStack.Navigator>
 );
+const NotificationsStack = () => (
+  <PostLoginStack.Navigator
+    headerMode="none"
+    mode="card"
+    initialRouteName="Notifications">
+    <PostLoginStack.Screen
+      name="Notifications"
+      options={transition}
+      component={Notifications}
+    />
+    <PostLoginStack.Screen
+      name="RequestDetails"
+      options={transition}
+      component={RequestDetails}
+    />
+  </PostLoginStack.Navigator>
+);
 function HomeDrawer() {
   return (
     <Drawer.Navigator
@@ -98,8 +114,10 @@ function HomeDrawer() {
       drawerStyle={{width: widthPercentageToDP(70)}}
       drawerContent={(props) => <DrawerScreen {...props} />}>
       <Drawer.Screen name="Request" component={MyTabs} />
-      <Drawer.Screen name="Notifications" component={Notifications} />
+      <Drawer.Screen name="Notifications" component={NotificationsStack} />
       <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Terms" component={Terms} />
+      <Drawer.Screen name="Privacy" component={Privacy} />
       <Drawer.Screen name="Maps" options={transition} component={HomeStack} />
     </Drawer.Navigator>
   );
