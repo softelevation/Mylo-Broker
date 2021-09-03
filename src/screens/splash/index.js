@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Block, ImageComponent} from '../../components';
 import {light} from '../../components/theme/colors';

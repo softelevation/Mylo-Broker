@@ -11,6 +11,11 @@ import {useSelector} from 'react-redux';
 import ActivityLoader from '../../../components/activityLoader';
 import moment from 'moment';
 import EmptyFile from '../../../components/emptyFile';
+import {
+  strictValidObjectWithKeys,
+  strictValidString,
+} from '../../../utils/commonUtils';
+import {config} from '../../../utils/config';
 
 const PastRequest = () => {
   const navigation = useNavigation();
@@ -40,7 +45,17 @@ const PastRequest = () => {
         flex={false}
         shadow>
         <Block center row flex={false}>
-          <ImageComponent name="avatar" height="50" width="50" radius={50} />
+          {strictValidObjectWithKeys(item) && strictValidString(item.image) ? (
+            <ImageComponent
+              isURL
+              name={`${config.Api_Url}/${item.image}`}
+              height="50"
+              width="50"
+              radius={50}
+            />
+          ) : (
+            <ImageComponent name="avatar" height="50" width="50" radius={50} />
+          )}
           <Block margin={[0, w3]} flex={false}>
             <Text bold size={18}>
               {item.name}

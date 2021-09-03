@@ -8,7 +8,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Block, CustomButton, ImageComponent, Text} from '../../../components';
 import ActivityLoader from '../../../components/activityLoader';
 import {t1, t2, w3, w6} from '../../../components/theme/fontsize';
-import {strictValidObjectWithKeys} from '../../../utils/commonUtils';
+import {
+  strictValidObjectWithKeys,
+  strictValidString,
+} from '../../../utils/commonUtils';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import EmptyFile from '../../../components/emptyFile';
@@ -18,6 +21,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {light} from '../../../components/theme/colors';
 import TimeZone from 'react-native-timezone';
+import {config} from '../../../utils/config';
 
 const UpcomingRequest = () => {
   const navigation = useNavigation();
@@ -127,7 +131,23 @@ const UpcomingRequest = () => {
         shadow>
         <Block space="between" center row flex={false}>
           <Block flex={false} row center>
-            <ImageComponent name="avatar" height="50" width="50" radius={50} />
+            {strictValidObjectWithKeys(item) &&
+            strictValidString(item.image) ? (
+              <ImageComponent
+                isURL
+                name={`${config.Api_Url}/${item.image}`}
+                height="50"
+                width="50"
+                radius={50}
+              />
+            ) : (
+              <ImageComponent
+                name="avatar"
+                height="50"
+                width="50"
+                radius={50}
+              />
+            )}
             <Block margin={[0, w3]} flex={false}>
               <Text bold size={18}>
                 {item.name}

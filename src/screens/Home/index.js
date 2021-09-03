@@ -9,7 +9,6 @@ import {
 import {t3, t2} from '../../components/theme/fontsize';
 import {ScrollView} from 'react-native';
 const Home = () => {
-  const nav = useNavigation();
   return (
     <Block flex={1} safearea secondary>
       <Header centerText="" />

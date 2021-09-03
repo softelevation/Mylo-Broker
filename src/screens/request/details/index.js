@@ -13,9 +13,13 @@ import {Block, Text, ImageComponent, Button} from '../../../components';
 import {light} from '../../../components/theme/colors';
 import {t1, t2, w1, w2, w3, w4, w5} from '../../../components/theme/fontsize';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {strictValidString} from '../../../utils/commonUtils';
+import {
+  strictValidObjectWithKeys,
+  strictValidString,
+} from '../../../utils/commonUtils';
 import {useNavigation} from '@react-navigation/native';
 import useHardwareBack from '../../../components/usehardwareBack';
+import {config} from '../../../utils/config';
 const RequestDetails = ({
   route: {
     params: {item},
@@ -72,7 +76,23 @@ const RequestDetails = ({
             borderRadius={80}
             borderWidth={1}
             borderColor="#fff">
-            <ImageComponent name="avatar" height="70" width="70" radius={70} />
+            {strictValidObjectWithKeys(item) &&
+            strictValidString(item.image) ? (
+              <ImageComponent
+                isURL
+                name={`${config.Api_Url}/${item.image}`}
+                height={70}
+                width={70}
+                radius={70}
+              />
+            ) : (
+              <ImageComponent
+                name="avatar"
+                height={70}
+                width={70}
+                radius={70}
+              />
+            )}
           </Block>
           <Block flex={false} margin={[0, w5]}>
             <Text style={{width: wp(60)}} transform="uppercase" white medium>

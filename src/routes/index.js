@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {
   CardStyleInterpolators,
   createStackNavigator,
@@ -19,7 +19,7 @@ const RootStack = createStackNavigator();
 const Routes = () => {
   const status = useSelector((state) => state.user.profile.user);
   const [customerDetails, setCustomerDetails] = React.useState({});
-  console.log(status.status, 'status.status ');
+
   useEffect(() => {
     const socket = io('http://104.131.39.110:3000');
     socket.on('customer_details', (msg) => {

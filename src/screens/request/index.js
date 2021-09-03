@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BackHandler, FlatList, Text, View} from 'react-native';
 import {
   heightPercentageToDP,
@@ -12,6 +12,7 @@ import {Block, CustomButton} from '../../components';
 import {customerListRequest, profileRequest} from '../../redux/action';
 import io from 'socket.io-client';
 import {handleBackPress} from '../../utils/commonAppUtils';
+import messaging from '@react-native-firebase/messaging';
 
 const Request = ({navigationState}) => {
   const {routes, index} = navigationState;
@@ -19,6 +20,34 @@ const Request = ({navigationState}) => {
   const selected = index;
   const navigation = useNavigation();
   const socket = useSelector((state) => state.socket.data);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+
+    messaging().onNotificationOpenedApp((remoteMessage) => {
+      console.log(remoteMessage, 'remoteMessage');
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      navigation.navigate('Notifications');
+    });
+
+    // Check whether an initial notification is available
+    messaging()
+      .getInitialNotification()
+      .then((remoteMessage) => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+        }
+        setLoading(false);
+      });
+  }, []);
 
   const getValues = (name) => {
     if (name === 'PastRequest') {
@@ -46,6 +75,10 @@ const Request = ({navigationState}) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <Block safearea flex={false}>
