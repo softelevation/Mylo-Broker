@@ -207,7 +207,7 @@ const DrawerScreen = ({state}) => {
               )}
             </Block>
             <Block margin={[0, wp(4), 0, wp(4)]} flex={false}>
-              <Text white bold>
+              <Text style={{width: wp(40)}} white bold>
                 {strictValidObjectWithKeys(user) && user.name}
               </Text>
               <TouchableOpacity onPress={() => nav.navigate('Profile')}>
