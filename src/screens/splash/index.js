@@ -33,7 +33,7 @@ const Splash = () => {
   };
   useEffect(() => {
     callAuthApi();
-    const socket = io('http://104.131.39.110:3000');
+    const socket = io('http://3.235.91.25:3000');
     socket.on('connect', (a) => {
       dispatch(socketConnection(socket));
       console.log('true', socket.connected); // true

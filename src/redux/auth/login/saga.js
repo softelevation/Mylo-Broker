@@ -7,6 +7,7 @@ import * as navigation from '../../../routes/NavigationService';
 export function* loginRequest(action) {
   try {
     const response = yield call(Api, action.payload);
+    console.log('response: ', response);
     if (response.data.status === 1 && response.data.data.roll_id === 2) {
       yield put(loginSuccess(response.data));
       navigation.navigate('Register', {

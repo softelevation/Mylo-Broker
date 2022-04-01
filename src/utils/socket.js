@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 let socket;
 export const initiateSocket = (room) => {
-  socket = io('http://104.131.39.110:3000');
+  socket = io('http://3.235.91.25:3000');
   console.log('Connecting socket...');
   if (socket) {
     socket.emit('join');

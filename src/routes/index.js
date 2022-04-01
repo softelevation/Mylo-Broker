@@ -21,13 +21,14 @@ const Routes = () => {
   const [customerDetails, setCustomerDetails] = React.useState({});
 
   useEffect(() => {
-    const socket = io('http://104.131.39.110:3000');
+    const socket = io('http://3.235.91.25:3000');
     socket.on('customer_details', (msg) => {
       console.log(msg);
       if (status.status === '1') {
         setCustomerDetails(msg);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
