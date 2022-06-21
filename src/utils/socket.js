@@ -1,7 +1,8 @@
 import io from 'socket.io-client';
+import {config} from '../../utils/config';
 let socket;
 export const initiateSocket = (room) => {
-  socket = io('http://3.235.91.25:3000');
+  socket = io(config.Api_Url);
   console.log('Connecting socket...');
   if (socket) {
     socket.emit('join');

@@ -8,6 +8,7 @@ import {light} from '../../components/theme/colors';
 import {loginSuccess, socketConnection} from '../../redux/action';
 import {strictValidString} from '../../utils/commonUtils';
 import io from 'socket.io-client';
+import {config} from '../../utils/config';
 import messaging from '@react-native-firebase/messaging';
 
 const Splash = () => {
@@ -33,7 +34,7 @@ const Splash = () => {
   };
   useEffect(() => {
     callAuthApi();
-    const socket = io('http://3.235.91.25:3000');
+    const socket = io(config.Api_Url);
     socket.on('connect', (a) => {
       dispatch(socketConnection(socket));
       console.log('true', socket.connected); // true

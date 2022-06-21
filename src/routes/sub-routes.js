@@ -16,8 +16,8 @@ import UpcomingRequest from '../screens/request/upcoming';
 import PastRequest from '../screens/request/past';
 import Notifications from '../screens/notifications';
 import RequestDetails from '../screens/request/details/index';
-import Terms from '../screens/help/terms';
-import Privacy from '../screens/help/privacy';
+import Privacy from '../screens/Privacyscreen/index'
+import Terms from '../screens/Termsscreen/index'
 const Tab = createMaterialTopTabNavigator();
 const PostLoginStack = createStackNavigator();
 const Drawer = createDrawerNavigator();

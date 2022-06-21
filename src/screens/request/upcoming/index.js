@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, FlatList, TouchableOpacity} from 'react-native';
+import {Alert, FlatList, RefreshControl, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -29,6 +29,7 @@ const UpcomingRequest = () => {
   const isLoad = useSelector((state) => state.customer.list.loading);
   const data = useSelector((state) => state.customer.list.data);
   const {upcoming} = data;
+  const [refreshing, setRefreshing] = useState(false);
   const socket = useSelector((state) => state.socket.data);
 
   useEffect(() => {
@@ -41,6 +42,14 @@ const UpcomingRequest = () => {
     getTimeZone();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+    dispatch(customerListRequest());
+  };
 
   const formatDate = (v) => {
     return moment(v).format('DD, MMM YYYY');
@@ -180,13 +189,13 @@ const UpcomingRequest = () => {
             <Block margin={[t1, 0]} row center flex={false}>
               <ImageComponent name="clock_icon" height="13.5" width="13.5" />
               <Text margin={[0, w3]} grey body>
-                {formatTime(item.created_at)}
+                {formatTime(item.assign_at)}
               </Text>
             </Block>
             <Block margin={[t1, 0]} row center flex={false}>
               <ImageComponent name="calendar_icon" height="14.5" width="13" />
               <Text margin={[0, w3]} grey body>
-                {formatDate(item.created_at)}
+                {formatDate(item.assign_at)}
               </Text>
             </Block>
             <Block margin={[t1, 0]} row center flex={false}>
@@ -246,6 +255,9 @@ const UpcomingRequest = () => {
       {isLoad && <ActivityLoader />}
       {strictValidObjectWithKeys(data) && (
         <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           data={upcoming}
           contentContainerStyle={{paddingBottom: hp(2), flexGrow: 1}}
           showsVerticalScrollIndicator={false}

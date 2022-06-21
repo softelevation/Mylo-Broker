@@ -11,6 +11,7 @@ import {navigationRef} from './NavigationService';
 import {useSelector} from 'react-redux';
 import {Alerts, strictValidObjectWithKeys} from '../utils/commonUtils';
 import io from 'socket.io-client';
+import {config} from '../utils/config';
 import BrokerDetails from '../common/dialog/broker_details';
 import messaging from '@react-native-firebase/messaging';
 
@@ -21,7 +22,7 @@ const Routes = () => {
   const [customerDetails, setCustomerDetails] = React.useState({});
 
   useEffect(() => {
-    const socket = io('http://3.235.91.25:3000');
+    const socket = io(config.Api_Url);
     socket.on('customer_details', (msg) => {
       console.log(msg);
       if (status.status === '1') {
