@@ -27,3 +27,4 @@ export {
   statusChangeSuccess,
 } from './requests/action';
 export {socketConnection, socketDisconnect, socketFlush} from './socket/action';
+export {locationRequest, locationSuccess} from './location/action';
