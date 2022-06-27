@@ -16,4 +16,5 @@ export const light = {
   accent: '#B92D00',
   starColor: '#FDCC0D',
   success: '#57B957',
+  link: '#689DF6',
 };

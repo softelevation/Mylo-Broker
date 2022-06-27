@@ -39,7 +39,7 @@ const RequestDetails = ({
   };
   const navigation = useNavigation();
   const handleBack = () => {
-    navigation.navigate('Maps');
+    navigation.navigate('UpcomingStack');
     return true;
   };
 

@@ -235,13 +235,31 @@ const UpcomingRequest = () => {
                 </CustomButton>
               </>
             ) : (
-              <Block
-                padding={[7]}
-                borderRadius={5}
-                flex={false}
-                color="rgba(87, 185, 86,.3)">
-                <Text transform="uppercase" semibold color="#39B54A" size={12}>
-                  {'In Progress'}
+              <Block flex={false}>
+                <Block
+                  center
+                  padding={[7]}
+                  borderRadius={5}
+                  flex={false}
+                  color="rgba(87, 185, 86,.3)">
+                  <Text
+                    transform="uppercase"
+                    semibold
+                    color="#39B54A"
+                    size={12}>
+                    {item.status}
+                  </Text>
+                </Block>
+                <Text
+                  onPress={() =>
+                    navigation.navigate('TrackScreen', {
+                      data: item,
+                    })
+                  }
+                  margin={[hp(1), 0, 0]}
+                  size={14}
+                  underline={true}>
+                  Start Booking
                 </Text>
               </Block>
             )}

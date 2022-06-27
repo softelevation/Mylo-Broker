@@ -18,6 +18,7 @@ import Notifications from '../screens/notifications';
 import RequestDetails from '../screens/request/details/index';
 import Privacy from '../screens/Privacyscreen/index';
 import Terms from '../screens/Termsscreen/index';
+import TrackBroker from '../screens/track';
 const Tab = createMaterialTopTabNavigator();
 const PostLoginStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -102,6 +103,11 @@ const MyTabs = () => {
         name="RequestDetails"
         options={transition}
         component={RequestDetails}
+      />
+      <PostLoginStack.Screen
+        name="TrackScreen"
+        options={transition}
+        component={TrackBroker}
       />
     </PostLoginStack.Navigator>
   );

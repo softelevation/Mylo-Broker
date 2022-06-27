@@ -35,5 +35,7 @@ const images = {
   email_icon: require('./icons/email.png'),
   address_icon: require('./icons/home.png'),
   close_icon: require('./icons/close.png'),
+  customer_icon: require('./icons/close.png'),
+  current_loc_icon: require('./icons/locations.png'),
 };
 export default images;
