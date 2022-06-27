@@ -135,7 +135,14 @@ const Notifications = () => {
               </Block>
               <Block margin={[0, w3, 0, w3]}>
                 <Text secondary body semibold>
-                  Booking #{item.booking_id} accepted
+                  Booking #{item.booking_id}{' '}
+                  <Text
+                    secondary
+                    body
+                    semibold
+                    style={{textTransform: 'capitalize'}}>
+                    {item.status}
+                  </Text>
                 </Text>
                 <Text margin={[t1, 0, 0, 0]} grey body>
                   {item.message}
@@ -157,7 +164,14 @@ const Notifications = () => {
               <ImageComponent name="rejected_icon" height="13" width="13" />
               <Block margin={[0, w3, 0, w3]}>
                 <Text accent body semibold>
-                  Booking #{item.booking_id} rejected
+                  Booking #{item.booking_id}{' '}
+                  <Text
+                    secondary
+                    body
+                    semibold
+                    style={{textTransform: 'capitalize'}}>
+                    {item.status}
+                  </Text>
                 </Text>
                 <Text margin={[t1, 0, 0, 0]} grey body>
                   {item.message}

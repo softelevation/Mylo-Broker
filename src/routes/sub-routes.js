@@ -16,8 +16,8 @@ import UpcomingRequest from '../screens/request/upcoming';
 import PastRequest from '../screens/request/past';
 import Notifications from '../screens/notifications';
 import RequestDetails from '../screens/request/details/index';
-import Privacy from '../screens/Privacyscreen/index'
-import Terms from '../screens/Termsscreen/index'
+import Privacy from '../screens/Privacyscreen/index';
+import Terms from '../screens/Termsscreen/index';
 const Tab = createMaterialTopTabNavigator();
 const PostLoginStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -57,7 +57,27 @@ export const PreLoginScreen = () => (
   </PostLoginStack.Navigator>
 );
 
-function MyTabs() {
+// const UpcomingStack = () => {
+//   return (
+//     <PostLoginStack.Navigator
+//       headerMode="none"
+//       mode="card"
+//       initialRouteName="UpcomingRequest">
+//       <PostLoginStack.Screen
+//         name="UpcomingRequest"
+//         options={transition}
+//         component={UpcomingRequest}
+//       />
+//       <PostLoginStack.Screen
+//         name="RequestDetails"
+//         options={transition}
+//         component={RequestDetails}
+//       />
+//     </PostLoginStack.Navigator>
+//   );
+// };
+
+function UpcomingStack() {
   return (
     <Tab.Navigator
       initialRouteName="UpcomingRequest"
@@ -67,6 +87,25 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
+const MyTabs = () => {
+  return (
+    <PostLoginStack.Navigator
+      headerMode="none"
+      mode="card"
+      initialRouteName="UpcomingStack">
+      <PostLoginStack.Screen
+        name="UpcomingStack"
+        options={transition}
+        component={UpcomingStack}
+      />
+      <PostLoginStack.Screen
+        name="RequestDetails"
+        options={transition}
+        component={RequestDetails}
+      />
+    </PostLoginStack.Navigator>
+  );
+};
 
 const HomeStack = () => (
   <PostLoginStack.Navigator
