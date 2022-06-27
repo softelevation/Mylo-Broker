@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {BackHandler, FlatList, Text, View} from 'react-native';
 import {
   heightPercentageToDP,
@@ -13,6 +13,7 @@ import {customerListRequest, profileRequest} from '../../redux/action';
 import io from 'socket.io-client';
 import {handleBackPress} from '../../utils/commonAppUtils';
 import messaging from '@react-native-firebase/messaging';
+import {SocketContext} from '../../utils/socket';
 
 const Request = ({navigationState}) => {
   const {routes, index} = navigationState;
@@ -20,6 +21,8 @@ const Request = ({navigationState}) => {
   const selected = index;
   const navigation = useNavigation();
   const socket = useSelector((state) => state.socket.data);
+  const socketN = useContext(SocketContext);
+  // console.log('socketN: ', socketNs);
 
   const [loading, setLoading] = useState(true);
 

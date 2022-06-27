@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Modal} from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -16,9 +16,12 @@ import {
 import {light} from '../../components/theme/colors';
 import {t1, t3, w1, w5} from '../../components/theme/fontsize';
 import {strictValidObjectWithKeys} from '../../utils/commonUtils';
+import {SocketContext} from '../../utils/socket';
 
 const BrokerDetails = ({brokerDetails, setBrokerDetails}) => {
   const [state, setstate] = useState(true);
+  const socketN = useContext(SocketContext);
+  console.log('socketN: ', socketN);
   const socket = useSelector((state) => state.socket.data);
   const [delLoader, setDelLoader] = useState(false);
   const [Loader, setLoader] = useState(false);

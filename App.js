@@ -9,10 +9,12 @@ import rootSaga from './src/redux/saga';
 // import {configurePush} from './src/utils/push-notification-service';
 import FlashMessage from 'react-native-flash-message';
 import NetInfo from '@react-native-community/netinfo';
-import {Alert} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import {Alerts} from './src/utils/commonUtils';
 import {light} from './src/components/theme/colors';
-
+import {socket, SocketContext} from './src/utils/socket';
+import {ErrorBoundary} from 'react-error-boundary';
+import {Block, Text} from './src/components';
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(rootreducer, applyMiddleware(sagaMiddleware, logger));
@@ -39,13 +41,39 @@ const App = () => {
       // Alerts('Success', 'You are online!', light.success);
     }
   };
+  const errorHandler = (error, componentStack) => {
+    console.warn('Component error:', error, componentStack);
+  };
+
+  function ErrorFallback({error, componentStack, resetErrorBoundary}) {
+    return (
+      <Block style={[styles.container]}>
+        {/* <ResponsiveImage source={Bugs} initHeight="330" initWidth="400" /> */}
+        <Text> Something went wrong: </Text>
+        <Text> Please Restart Your Application </Text>
+      </Block>
+    );
+  }
 
   return (
-    <Provider store={store}>
-      <Routes />
-      <FlashMessage position="top" />
-    </Provider>
+    <SocketContext.Provider value={socket}>
+      <Provider store={store}>
+        <ErrorBoundary FallbackComponent={ErrorFallback} onError={errorHandler}>
+          <Routes />
+          <FlashMessage position="top" />
+        </ErrorBoundary>
+      </Provider>
+    </SocketContext.Provider>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+    backgroundColor: '#FFFFFF',
+  },
+});
 
 export default App;
