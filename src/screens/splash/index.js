@@ -9,7 +9,10 @@ import {loginSuccess, socketConnection} from '../../redux/action';
 import {strictValidString} from '../../utils/commonUtils';
 import io from 'socket.io-client';
 import {config} from '../../utils/config';
+import Geolocation from '@react-native-community/geolocation';
 import messaging from '@react-native-firebase/messaging';
+import {Linking, PermissionsAndroid, Platform} from 'react-native';
+import {locationRequest} from '../../redux/action';
 
 const Splash = () => {
   const nav = useNavigation();
@@ -65,6 +68,73 @@ const Splash = () => {
       console.log('Failed', 'No token received');
     }
   };
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        dispatch(locationRequest(position.coords));
+      },
+      (error) => {},
+      {
+        enableHighAccuracy: false,
+        timeout: 15000,
+      },
+    );
+  };
+
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'MyloPro App Location Permission',
+          message:
+            'MyloPro App App needs access to your location ' +
+            'so you can access the geolocation service.',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        getLocation();
+      } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+        console.log('never ask again');
+        // if (Platform.OS === 'android') {
+        //   BackHandler.exitApp();
+        // }
+        Alerts(
+          "You can't acess the Geolocation Service",
+          'Please give access to Location service from the app settings',
+        );
+        setTimeout(() => {
+          Linking.openSettings();
+        }, 2000);
+        // requestCameraPermission();
+      } else {
+        console.log('never ask again 2');
+        Alerts(
+          "You can't acess the Geolocation Service",
+          'Please give access to Location service',
+        );
+        requestCameraPermission();
+        // if (Platform.OS === 'android') {
+        //   BackHandler.exitApp();
+        // }
+        console.log('Location permission denied');
+      }
+    } catch (err) {
+      console.log('never ask again 3', err);
+      console.warn(err);
+    }
+  };
+
+  useEffect(() => {
+    if (Platform.OS === 'ios') {
+      getLocation();
+    } else {
+      requestCameraPermission();
+    }
+  }, []);
 
   return (
     <Block safearea center middle secondary>
