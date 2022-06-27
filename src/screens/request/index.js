@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React, {useContext, useEffect, useState} from 'react';
 import {BackHandler, FlatList, Text, View} from 'react-native';
 import {
@@ -21,8 +21,6 @@ const Request = ({navigationState}) => {
   const selected = index;
   const navigation = useNavigation();
   const socket = useSelector((state) => state.socket.data);
-  const socketN = useContext(SocketContext);
-  // console.log('socketN: ', socketNs);
 
   const [loading, setLoading] = useState(true);
 
@@ -69,9 +67,6 @@ const Request = ({navigationState}) => {
   }, []);
 
   useEffect(() => {
-    dispatch(profileRequest());
-    dispatch(customerListRequest());
-
     socket.on('refresh_feed', (msg) => {
       if (msg.type === 'book_broker') {
         dispatch(customerListRequest());
@@ -79,6 +74,13 @@ const Request = ({navigationState}) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(profileRequest());
+      dispatch(customerListRequest());
+    }, []),
+  );
 
   if (loading) {
     return null;

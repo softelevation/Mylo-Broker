@@ -13,7 +13,7 @@ import {
   strictValidString,
 } from '../../../utils/commonUtils';
 import moment from 'moment';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import EmptyFile from '../../../components/emptyFile';
 import io from 'socket.io-client';
 import {customerListRequest} from '../../../redux/action';
@@ -122,6 +122,17 @@ const UpcomingRequest = () => {
       ],
       {cancelable: false},
     );
+  };
+
+  const renderStatus = (key) => {
+    switch (key) {
+      case 'in_progress':
+        return 'In Progress';
+      case 'travel_to_booking':
+        return 'In Progress';
+      default:
+        return key;
+    }
   };
   const _renderItem = ({item}) => {
     return (
@@ -247,15 +258,22 @@ const UpcomingRequest = () => {
                     semibold
                     color="#39B54A"
                     size={12}>
-                    {item.status}
+                    {renderStatus(item.status)}
                   </Text>
                 </Block>
                 <Text
-                  onPress={() =>
-                    navigation.navigate('TrackScreen', {
-                      data: item,
-                    })
-                  }
+                  onPress={() => {
+                    if (item.status !== 'travel_to_booking') {
+                      onhandleDelete(item.id, 'travel_to_booking');
+                      navigation.navigate('TrackScreen', {
+                        data: item,
+                      });
+                    } else {
+                      navigation.navigate('TrackScreen', {
+                        data: item,
+                      });
+                    }
+                  }}
                   margin={[hp(1), 0, 0]}
                   size={14}
                   underline={true}>

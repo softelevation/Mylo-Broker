@@ -14,7 +14,7 @@ import {Alerts} from './src/utils/commonUtils';
 import {light} from './src/components/theme/colors';
 import {socket, SocketContext} from './src/utils/socket';
 import {ErrorBoundary} from 'react-error-boundary';
-import {Block, Text} from './src/components';
+import {Block, ImageComponent, Text} from './src/components';
 import {BackHandler, DeviceEventEmitter} from 'react-native';
 import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
 
@@ -105,7 +105,7 @@ const App = () => {
   function ErrorFallback({error, componentStack, resetErrorBoundary}) {
     return (
       <Block style={[styles.container]}>
-        {/* <ResponsiveImage source={Bugs} initHeight="330" initWidth="400" /> */}
+        <ImageComponent name={'bug_icon'} height={330} width={400} />
         <Text> Something went wrong: </Text>
         <Text> Please Restart Your Application </Text>
       </Block>

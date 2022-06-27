@@ -37,5 +37,6 @@ const images = {
   close_icon: require('./icons/close.png'),
   customer_icon: require('./icons/close.png'),
   current_loc_icon: require('./icons/locations.png'),
+  bug_icon: require('./icons/bugs.png'),
 };
 export default images;
