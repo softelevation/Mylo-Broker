@@ -14,7 +14,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import {getCurrentLocation, locationPermission} from '../../utils/helper';
 import {constants} from '../../utils/config';
 import useHardwareBack from '../../components/usehardwareBack';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {strictValidObjectWithKeys} from '../../utils/commonUtils';
 import Header from '../../common/header';
 import {
@@ -58,8 +58,7 @@ const Home = ({navigation}) => {
     distance: 0,
     heading: 0,
   });
-  var interval;
-
+  const {goBack} = useNavigation();
   const {curLoc, time, distance, destinationCords, coordinate} = state;
   const updateState = (d) => setState((s) => ({...s, ...d}));
   const locationReducer = useSelector((v) => v.location.data);
@@ -179,6 +178,12 @@ const Home = ({navigation}) => {
       time: t,
     });
   };
+  const onhandleDelete = async (id, status) => {
+    const token = await AsyncStorage.getItem('token');
+    socket.emit('request', {id, status, token});
+    console.log('{id, status, token}: ', {id, status, token});
+    goBack();
+  };
 
   return (
     <View style={styles.container}>
@@ -253,9 +258,15 @@ const Home = ({navigation}) => {
             color={light.link}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={onCenter}>
-          <Button color={'secondary'}>Complete Booking </Button>
-        </TouchableOpacity>
+        <Block flex={false} style={styles.button}>
+          <Button
+            onPress={() => {
+              onhandleDelete(data.id, 'completed');
+            }}
+            color={'secondary'}>
+            Complete Booking{' '}
+          </Button>
+        </Block>
       </Block>
     </View>
   );
