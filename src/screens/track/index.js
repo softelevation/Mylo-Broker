@@ -138,10 +138,10 @@ const Home = ({navigation}) => {
     console.log('this is data', data);
     updateState({
       destinationCords: {
-        latitude: 30.6783634,
-        longitude: 76.7229952,
-        // latitude: data.latitude,
-        // longitude: data.longitude,
+        // latitude: 30.6783634,
+        // longitude: 76.7229952,
+        latitude: data.latitude,
+        longitude: data.longitude,
       },
     });
   };
