@@ -1,171 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// import {useNavigation} from '@react-navigation/native';
-// import React, {useEffect, useRef, useState} from 'react';
-// import {StyleSheet, View} from 'react-native';
-// import {Block, ImageComponent} from '../../components';
-// import MapView, {Marker} from 'react-native-maps';
-// import Geolocation from '@react-native-community/geolocation';
-// import Header from '../../common/header';
-// import MapViewDirections from 'react-native-maps-directions';
-
-// const origin = {latitude: -33.8623719, longitude: 151.2211646};
-// const destination = {latitude: -33.8729566, longitude: 151.1927314};
-// const GOOGLE_MAPS_APIKEY = 'AIzaSyADePjPgnwznPmlGboEQlTFWLHZIxAIgaQ';
-
-// const TrackBroker = ({
-//   route: {
-//     params: {item},
-//   },
-// }) => {
-//   const mapRef = useRef();
-//   const nav = useNavigation();
-//   // const brokerData = useSelector((state) => state.broker.list.broker.data);
-//   const [location, setlocation] = useState({
-//     latitude: 0,
-//     longitude: 0,
-//     latitudeDelta: 0.09,
-//     longitudeDelta: 0.02,
-//   });
-
-//   const getDefaultCoords = () => {
-//     return {
-//       longitude: 151.2099,
-//       latitude: -33.865143,
-//     };
-//   };
-
-//   const isMapRegionSydney = (coords) => {
-//     return (
-//       coords.longitude >= 148.601105 &&
-//       coords.longitude <= 151.75 &&
-//       coords.latitude >= -35.353333 &&
-//       coords.latitude <= -31.083332
-//     );
-//   };
-//   useEffect(() => {
-//     const watchId = Geolocation.getCurrentPosition(
-//       (position) => {
-//         let region = {
-//           latitude: position.coords.latitude,
-//           longitude: position.coords.longitude,
-//           latitudeDelta: 0.00922 * 1.5,
-//           longitudeDelta: 0.00421 * 1.5,
-//           // angle: position.coords.heading,
-//         };
-
-//         setlocation(region);
-//       },
-//       (error) => console.log(error),
-//       {
-//         enableHighAccuracy: true,
-//         timeout: 15000,
-//       },
-//     );
-
-//     return () => Geolocation.clearWatch(watchId);
-//   }, []);
-//   return (
-//     <Block>
-
-//       <View style={styles.container}>
-//         <MapView
-//           ref={mapRef}
-//           // minZoomLevel={15}
-//           // maxZoomLevel={20}
-//           zoomControlEnabled
-//           showsUserLocation={true}
-//           provider="google"
-//           style={styles.map}
-//           initialRegion={location}
-//           onRegionChangeComplete={async (coords) => {
-//             if (!isMapRegionSydney(coords)) {
-//               if (isMapRegionSydney(location)) {
-//                 mapRef && mapRef.current.animateToCoordinate(location);
-//                 setlocation({
-//                   longitude: location.longitude,
-//                   latitude: location.latitude,
-//                 });
-//               } else {
-//                 mapRef &&
-//                   mapRef.current.animateToCoordinate(getDefaultCoords());
-//                 setlocation({
-//                   longitude: 151.2099,
-//                   latitude: -33.865143,
-//                 });
-//               }
-//               return;
-//             }
-//           }}>
-//           <MapViewDirections
-//             origin={origin}
-//             destination={destination}
-//             apikey={GOOGLE_MAPS_APIKEY}
-//           />
-//           <Marker
-//             title={'me'}
-//             coordinate={{
-//               latitude: location.latitude,
-//               longitude: location.longitude,
-//             }}>
-//             <ImageComponent name={'customer_icon'} height="40" width="40" />
-//           </Marker>
-//           {/* {brokerData && (
-//             <Marker
-//               title={brokerData[3].name}
-//               coordinate={{
-//                 latitude: brokerData[3].latitude,
-//                 longitude: brokerData[3].longitude,
-//               }}>
-//               <ImageComponent name={'map_person_icon'} height="40" width="40" />
-//             </Marker>
-//           )} */}
-//         </MapView>
-//       </View>
-//     </Block>
-//   );
-// };
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'flex-end',
-//     alignItems: 'center',
-//   },
-//   map: {
-//     ...StyleSheet.absoluteFillObject,
-//   },
-// });
-// export default TrackBroker;
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  Image,
   Platform,
+  AppState,
 } from 'react-native';
 import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
-// import imagePath from '../constants/imagePath';
 import MapViewDirections from 'react-native-maps-directions';
 import {getCurrentLocation, locationPermission} from '../../utils/helper';
-import images from '../../assets';
 import {constants} from '../../utils/config';
 import useHardwareBack from '../../components/usehardwareBack';
-import {useRoute} from '@react-navigation/native';
-import {
-  strictValidObjectWithKeys,
-  strictValidString,
-} from '../../utils/commonUtils';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {strictValidObjectWithKeys} from '../../utils/commonUtils';
 import Header from '../../common/header';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import {ImageComponent} from '../../components';
+import {Block, Button, ImageComponent} from '../../components';
 import {light} from '../../components/theme/colors';
-// import Loader from '../components/Loader';
-// import {locationPermission, getCurrentLocation} from '../helper/helperFunction';
+import {useSelector} from 'react-redux';
+import BackgroundTimer from 'react-native-background-timer';
+import {SocketContext} from '../../utils/socket';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
@@ -174,11 +35,11 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const Home = ({navigation}) => {
   const {params} = useRoute();
+  const appState = useRef(AppState.currentState);
   const {data} = params;
-  console.log('data: ', data);
-
   const mapRef = useRef();
   const markerRef = useRef();
+  const socket = useContext(SocketContext);
 
   const [state, setState] = useState({
     curLoc: {
@@ -197,17 +58,44 @@ const Home = ({navigation}) => {
     distance: 0,
     heading: 0,
   });
+  const {goBack} = useNavigation();
+  const {curLoc, time, distance, destinationCords, coordinate} = state;
+  const updateState = (d) => setState((s) => ({...s, ...d}));
+  const locationReducer = useSelector((v) => v.location.data);
 
-  const {
-    curLoc,
-    time,
-    distance,
-    destinationCords,
-    isLoading,
-    coordinate,
-    heading,
-  } = state;
-  const updateState = (data) => setState((state) => ({...state, ...data}));
+  const updateValuesOnSocket = async (latitude, longitude, heading) => {
+    const token = await AsyncStorage.getItem('token');
+    socket.emit('tracking_for_booking', {
+      token: token,
+      booking_id: data.id,
+      current_latitude: latitude,
+      current_longitude: longitude,
+      current_angle: heading,
+    });
+    console.log({
+      token: token,
+      booking_id: data.id,
+      current_latitude: latitude,
+      current_longitude: longitude,
+      current_angle: heading,
+    });
+  };
+  useEffect(() => {
+    if (strictValidObjectWithKeys(locationReducer)) {
+      const {latitude, longitude, heading} = locationReducer;
+      updateState({
+        heading: heading,
+        curLoc: {latitude, longitude},
+        coordinate: new AnimatedRegion({
+          latitude: latitude,
+          longitude: longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        }),
+      });
+      updateValuesOnSocket(latitude, longitude, heading);
+    }
+  }, [locationReducer]);
 
   useEffect(() => {
     getLiveLocation();
@@ -217,7 +105,7 @@ const Home = ({navigation}) => {
     const locPermissionDenied = await locationPermission();
     if (locPermissionDenied) {
       const {latitude, longitude, heading} = await getCurrentLocation();
-      console.log('get live location after 4 second', heading);
+      console.log('get live location after 1 minute', heading);
       animate(latitude, longitude);
       updateState({
         heading: heading,
@@ -229,14 +117,15 @@ const Home = ({navigation}) => {
           longitudeDelta: LONGITUDE_DELTA,
         }),
       });
+      updateValuesOnSocket(latitude, longitude, heading);
     }
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const int = setInterval(() => {
       getLiveLocation();
-    }, 6000);
-    return () => clearInterval(interval);
+    }, 60000);
+    return () => clearInterval(int);
   }, []);
 
   useEffect(() => {
@@ -289,6 +178,12 @@ const Home = ({navigation}) => {
       time: t,
     });
   };
+  const onhandleDelete = async (id, status) => {
+    const token = await AsyncStorage.getItem('token');
+    socket.emit('request', {id, status, token});
+    console.log('{id, status, token}: ', {id, status, token});
+    goBack();
+  };
 
   return (
     <View style={styles.container}>
@@ -300,16 +195,15 @@ const Home = ({navigation}) => {
         navigation
       />
       {distance !== 0 && time !== 0 && (
-        <View style={{alignItems: 'center', marginVertical: 16}}>
+        <Block center margin={[16, 0]}>
           <Text>Time left: {time.toFixed(0)} </Text>
           <Text>Distance left: {distance.toFixed(0)}</Text>
-        </View>
+        </Block>
       )}
-      <View style={{flex: 1}}>
+      <Block flex={1}>
         <MapView
           ref={mapRef}
           style={StyleSheet.absoluteFill}
-          showsUserLocation
           initialRegion={{
             ...curLoc,
             latitudeDelta: LATITUDE_DELTA,
@@ -337,46 +231,26 @@ const Home = ({navigation}) => {
               destination={destinationCords}
               apikey={constants.MAP_KEY}
               strokeWidth={6}
-              strokeColor="red"
+              strokeColor="green"
               optimizeWaypoints={true}
-              onStart={(params) => {
+              onStart={(p) => {
                 console.log(
-                  `Started routing between "${params.origin}" and "${params.destination}"`,
+                  `Started routing between "${p.origin}" and "${p.destination}"`,
                 );
               }}
               onReady={(result) => {
-                console.log(`Distance: ${result.distance} km`);
-                console.log(`Duration: ${result.duration} min.`);
-                fetchTime(result.distance, result.duration),
-                  mapRef.current.fitToCoordinates(result.coordinates, {
-                    edgePadding: {
-                      // right: 30,
-                      // bottom: 300,
-                      // left: 30,
-                      // top: 100,
-                    },
-                  });
+                fetchTime(result.distance, result.duration);
+                mapRef.current.fitToCoordinates(result.coordinates, {
+                  edgePadding: {},
+                });
               }}
               onError={(errorMessage) => {
-                // console.log('GOT AN ERROR');
+                console.log('GOT AN ERROR ====>', errorMessage);
               }}
             />
           )}
         </MapView>
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            bottom: heightPercentageToDP(2),
-            right: widthPercentageToDP(3),
-            backgroundColor: '#fff',
-            padding: 10,
-            borderRadius: 40,
-          }}
-          onPress={onCenter}>
-          {/* <Image
-            source={images.current_loc_icon}
-            style={{height: 40, width: 40,tintColor:''}}
-          /> */}
+        <TouchableOpacity style={styles.onCenterStyle} onPress={onCenter}>
           <ImageComponent
             name="current_loc_icon"
             height={40}
@@ -384,14 +258,16 @@ const Home = ({navigation}) => {
             color={light.link}
           />
         </TouchableOpacity>
-      </View>
-      {/* <View style={styles.bottomCard}>
-        <Text>Where are you going..?</Text>
-        <TouchableOpacity onPress={onPressLocation} style={styles.inpuStyle}>
-          <Text>Choose your location</Text>
-        </TouchableOpacity>
-      </View> */}
-      {/* <Loader isLoading={isLoading} /> */}
+        <Block flex={false} style={styles.button}>
+          <Button
+            onPress={() => {
+              onhandleDelete(data.id, 'completed');
+            }}
+            color={'secondary'}>
+            Complete Booking{' '}
+          </Button>
+        </Block>
+      </Block>
     </View>
   );
 };
@@ -415,6 +291,23 @@ const styles = StyleSheet.create({
     height: 48,
     justifyContent: 'center',
     marginTop: 16,
+  },
+  onCenterStyle: {
+    position: 'absolute',
+    bottom: heightPercentageToDP(12),
+    right: widthPercentageToDP(3),
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 40,
+  },
+  button: {
+    position: 'absolute',
+    bottom: heightPercentageToDP(0),
+    // right: widthPercentageToDP(3),
+    right: 0,
+    left: 0,
+    padding: 10,
+    borderRadius: 40,
   },
 });
 

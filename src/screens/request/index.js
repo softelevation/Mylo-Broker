@@ -1,5 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import React, {useContext, useEffect, useState} from 'react';
 import {BackHandler, FlatList, Text, View} from 'react-native';
 import {
   heightPercentageToDP,
@@ -13,6 +13,7 @@ import {customerListRequest, profileRequest} from '../../redux/action';
 import io from 'socket.io-client';
 import {handleBackPress} from '../../utils/commonAppUtils';
 import messaging from '@react-native-firebase/messaging';
+import {SocketContext} from '../../utils/socket';
 
 const Request = ({navigationState}) => {
   const {routes, index} = navigationState;
@@ -66,9 +67,6 @@ const Request = ({navigationState}) => {
   }, []);
 
   useEffect(() => {
-    dispatch(profileRequest());
-    dispatch(customerListRequest());
-
     socket.on('refresh_feed', (msg) => {
       if (msg.type === 'book_broker') {
         dispatch(customerListRequest());
@@ -76,6 +74,13 @@ const Request = ({navigationState}) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(profileRequest());
+      dispatch(customerListRequest());
+    }, []),
+  );
 
   if (loading) {
     return null;
