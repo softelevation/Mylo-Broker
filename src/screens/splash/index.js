@@ -9,7 +9,7 @@ import {loginSuccess, socketConnection} from '../../redux/action';
 import {Alerts, strictValidString} from '../../utils/commonUtils';
 import io from 'socket.io-client';
 import {config} from '../../utils/config';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import messaging from '@react-native-firebase/messaging';
 import {Linking, PermissionsAndroid, Platform} from 'react-native';
 import {locationRequest} from '../../redux/action';
