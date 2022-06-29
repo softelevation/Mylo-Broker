@@ -38,7 +38,6 @@ const Notifications = () => {
 
   useEffect(() => {
     socket.on(`refresh_feed_${userId}`, (msg) => {
-      console.log(msg, 'check notificaton');
       if (msg.type === 'notification') {
         dispatch(notificationRequest());
       }
@@ -50,7 +49,6 @@ const Notifications = () => {
   const onhandleDelete = async (id, status) => {
     const token = await AsyncStorage.getItem('token');
     socket.emit('notification_badge', {token: token, id: id});
-    console.log(token, id);
     dispatch(notificationRequest());
   };
   const cancelRequest = (item) => {

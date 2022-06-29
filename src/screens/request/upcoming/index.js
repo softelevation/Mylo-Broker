@@ -13,14 +13,11 @@ import {
   strictValidString,
 } from '../../../utils/commonUtils';
 import moment from 'moment';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import EmptyFile from '../../../components/emptyFile';
-import io from 'socket.io-client';
 import {customerListRequest} from '../../../redux/action';
 import AsyncStorage from '@react-native-community/async-storage';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {light} from '../../../components/theme/colors';
-import TimeZone from 'react-native-timezone';
 import {config} from '../../../utils/config';
 
 const UpcomingRequest = () => {
@@ -37,9 +34,7 @@ const UpcomingRequest = () => {
       if (msg.type === 'book_broker') {
         dispatch(customerListRequest());
       }
-      console.log('Websocket event received!', msg);
     });
-    getTimeZone();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,18 +52,9 @@ const UpcomingRequest = () => {
   const formatTime = (v) => {
     return moment(v).format('hh:mm a');
   };
-  const AcceptDeclineRequest = async (id, status) => {
-    const token = await AsyncStorage.getItem('token');
-    socket.emit('request', {id, status, token});
-  };
   const onhandleDelete = async (id, status) => {
     const token = await AsyncStorage.getItem('token');
     socket.emit('request', {id, status, token});
-  };
-
-  const getTimeZone = async () => {
-    const timeZone = await TimeZone.getTimeZone().then((zone) => zone);
-    console.log(timeZone);
   };
 
   const acceptRequest = (id, status) => {
@@ -156,15 +142,15 @@ const UpcomingRequest = () => {
               <ImageComponent
                 isURL
                 name={`${config.Api_Url}/${item.image}`}
-                height="50"
-                width="50"
+                height={50}
+                width={50}
                 radius={50}
               />
             ) : (
               <ImageComponent
                 name="avatar"
-                height="50"
-                width="50"
+                height={50}
+                width={50}
                 radius={50}
               />
             )}
@@ -263,7 +249,7 @@ const UpcomingRequest = () => {
                 </Block>
                 <Text
                   onPress={() => {
-                    if (item.status !== 'travel_to_booking') {
+                    if (item.status !== 'in_progress') {
                       onhandleDelete(item.id, 'travel_to_booking');
                       navigation.navigate('TrackScreen', {
                         data: item,

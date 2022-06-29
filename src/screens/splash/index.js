@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import {Block, ImageComponent} from '../../components';
 import {light} from '../../components/theme/colors';
 import {loginSuccess, socketConnection} from '../../redux/action';
-import {strictValidString} from '../../utils/commonUtils';
+import {Alerts, strictValidString} from '../../utils/commonUtils';
 import io from 'socket.io-client';
 import {config} from '../../utils/config';
 import Geolocation from '@react-native-community/geolocation';
@@ -40,7 +40,6 @@ const Splash = () => {
     const socket = io(config.Api_Url);
     socket.on('connect', (a) => {
       dispatch(socketConnection(socket));
-      console.log('true', socket.connected); // true
     });
   }, []);
 
@@ -98,7 +97,6 @@ const Splash = () => {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         getLocation();
       } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-        console.log('never ask again');
         // if (Platform.OS === 'android') {
         //   BackHandler.exitApp();
         // }
@@ -111,7 +109,6 @@ const Splash = () => {
         }, 2000);
         // requestCameraPermission();
       } else {
-        console.log('never ask again 2');
         Alerts(
           "You can't acess the Geolocation Service",
           'Please give access to Location service',
@@ -120,10 +117,8 @@ const Splash = () => {
         // if (Platform.OS === 'android') {
         //   BackHandler.exitApp();
         // }
-        console.log('Location permission denied');
       }
     } catch (err) {
-      console.log('never ask again 3', err);
       console.warn(err);
     }
   };

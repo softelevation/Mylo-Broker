@@ -46,6 +46,7 @@ const Header = ({
       <Block flex={false} center middle>
         <Text
           semibold
+          size={16}
           // style={{width: wp(40)}}
           transform="uppercase"
           center

@@ -24,7 +24,6 @@ const Routes = () => {
   useEffect(() => {
     const socket = io(config.Api_Url);
     socket.on('customer_details', (msg) => {
-      console.log(msg);
       if (status.status === '1') {
         setCustomerDetails(msg);
       }
@@ -33,8 +32,6 @@ const Routes = () => {
   }, []);
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      console.log(remoteMessage);
       Alerts(
         remoteMessage.notification.title,
         remoteMessage.notification.body,

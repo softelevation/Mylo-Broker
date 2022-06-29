@@ -72,13 +72,6 @@ const Home = ({navigation}) => {
       current_longitude: longitude,
       current_angle: heading,
     });
-    console.log({
-      token: token,
-      booking_id: data.id,
-      current_latitude: latitude,
-      current_longitude: longitude,
-      current_angle: heading,
-    });
   };
   useEffect(() => {
     if (strictValidObjectWithKeys(locationReducer)) {
@@ -124,7 +117,7 @@ const Home = ({navigation}) => {
   useEffect(() => {
     const int = setInterval(() => {
       getLiveLocation();
-    }, 60000);
+    }, 10000);
     return () => clearInterval(int);
   }, []);
 
@@ -135,13 +128,12 @@ const Home = ({navigation}) => {
   }, [data]);
 
   const fetchValue = (data) => {
-    console.log('this is data', data);
     updateState({
       destinationCords: {
-        // latitude: 30.6783634,
-        // longitude: 76.7229952,
-        latitude: data.latitude,
-        longitude: data.longitude,
+        latitude: 30.6783634,
+        longitude: 76.7229952,
+        // latitude: data.latitude,
+        // longitude: data.longitude,
       },
     });
   };
@@ -181,7 +173,6 @@ const Home = ({navigation}) => {
   const onhandleDelete = async (id, status) => {
     const token = await AsyncStorage.getItem('token');
     socket.emit('request', {id, status, token});
-    console.log('{id, status, token}: ', {id, status, token});
     goBack();
   };
 

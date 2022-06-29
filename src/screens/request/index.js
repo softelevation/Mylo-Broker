@@ -1,6 +1,6 @@
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React, {useContext, useEffect, useState} from 'react';
-import {BackHandler, FlatList, Text, View} from 'react-native';
+import {BackHandler, FlatList, StyleSheet, Text, View} from 'react-native';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -28,11 +28,6 @@ const Request = ({navigationState}) => {
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     messaging().onNotificationOpenedApp((remoteMessage) => {
-      console.log(remoteMessage, 'remoteMessage');
-      console.log(
-        'Notification caused app to open from background state:',
-        remoteMessage.notification,
-      );
       navigation.navigate('Notifications');
     });
 
@@ -41,10 +36,6 @@ const Request = ({navigationState}) => {
       .getInitialNotification()
       .then((remoteMessage) => {
         if (remoteMessage) {
-          console.log(
-            'Notification caused app to open from quit state:',
-            remoteMessage.notification,
-          );
         }
         setLoading(false);
       });
@@ -79,6 +70,7 @@ const Request = ({navigationState}) => {
     React.useCallback(() => {
       dispatch(profileRequest());
       dispatch(customerListRequest());
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
 
@@ -92,12 +84,7 @@ const Request = ({navigationState}) => {
       <FlatList
         data={routes}
         horizontal
-        contentContainerStyle={{
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          flexDirection: 'row',
-          flex: 1,
-        }}
+        contentContainerStyle={styles.FlatListStyle}
         keyExtractor={(item) => item.key}
         renderItem={({item, index}) => {
           return (
@@ -107,20 +94,11 @@ const Request = ({navigationState}) => {
               secondary
               style={
                 selected === index
-                  ? {
-                      borderBottomColor: '#fff',
-                      borderBottomWidth: 4,
-                    }
-                  : {borderBottomColor: 'transparent', borderBottomWidth: 4}
+                  ? styles.selectedStyle
+                  : styles.unSelectedStyle
               }
               onPress={() => navigation.navigate(item.name)}>
-              <CustomText
-                style={
-                  selected === index && {
-                    color: '#fff',
-                    fontWeight: '500',
-                  }
-                }>
+              <CustomText style={selected === index && styles.selectedText}>
                 {getValues(item.name)}
               </CustomText>
             </ButtonStyle>
@@ -139,5 +117,25 @@ const ButtonStyle = styled(CustomButton)({
   width: widthPercentageToDP(50),
   justifyContent: 'center',
   alignItems: 'center',
+});
+const styles = StyleSheet.create({
+  FlatListStyle: {
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+  },
+  selectedStyle: {
+    borderBottomColor: '#fff',
+    borderBottomWidth: 4,
+  },
+  unSelectedStyle: {
+    borderBottomColor: 'transparent',
+    borderBottomWidth: 4,
+  },
+  selectedText: {
+    color: '#fff',
+    fontWeight: '500',
+  },
 });
 export default Request;

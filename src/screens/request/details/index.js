@@ -191,11 +191,6 @@ const RequestDetails = ({
           )}
         </Block>
       </ScrollView>
-      <Block flex={false} padding={[0, wp(5)]}>
-        <Button shadow color="secondary">
-          Complete Request
-        </Button>
-      </Block>
     </Block>
   );
 };

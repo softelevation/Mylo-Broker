@@ -35,7 +35,6 @@
 // };
 
 // function onRegister(data) {
-//   console.log(data, 'token');
 //   let currentPlatform = 'Android';
 //   if (Platform.OS === 'ios') {
 //     currentPlatform = 'ios';
