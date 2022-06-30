@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Block, CustomButton, ImageComponent, Text} from '../../components';
 import Header from '../../common/header';
 import {Alert, FlatList, RefreshControl} from 'react-native';
@@ -13,6 +13,7 @@ import EmptyFile from '../../components/emptyFile';
 import {light} from '../../components/theme/colors';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
+import {SocketContext} from '../../utils/socket';
 import {strictValidArrayWithLength} from '../../utils/commonUtils';
 import ActivityLoader from '../../components/activityLoader';
 
@@ -20,12 +21,12 @@ const Notifications = () => {
   const navigation = useNavigation();
   const [refreshing, setrefreshing] = useState(false);
   const userId = useSelector((state) => state.user.profile.user.id);
-  const [data, loading, socket] = useSelector((v) => [
+  const [data, loading] = useSelector((v) => [
     v.notification.data,
     v.notification.loading,
-    v.socket.data,
   ]);
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
   const handleBack = () => {
     navigation.navigate('Maps');
     return true;

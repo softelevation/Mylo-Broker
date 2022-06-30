@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Alert, FlatList, RefreshControl, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -19,6 +19,7 @@ import {customerListRequest} from '../../../redux/action';
 import AsyncStorage from '@react-native-community/async-storage';
 import {light} from '../../../components/theme/colors';
 import {config} from '../../../utils/config';
+import {SocketContext} from '../../../utils/socket';
 
 const UpcomingRequest = () => {
   const navigation = useNavigation();
@@ -27,7 +28,7 @@ const UpcomingRequest = () => {
   const data = useSelector((state) => state.customer.list.data);
   const {upcoming} = data;
   const [refreshing, setRefreshing] = useState(false);
-  const socket = useSelector((state) => state.socket.data);
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
     socket.on('refresh_feed', (msg) => {

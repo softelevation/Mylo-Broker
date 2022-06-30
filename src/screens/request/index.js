@@ -1,4 +1,4 @@
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation , useContext} from '@react-navigation/native';
 import React, {useContext, useEffect, useState} from 'react';
 import {BackHandler, FlatList, StyleSheet, Text, View} from 'react-native';
 import {
@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import Header from '../../common/header';
 import {Block, CustomButton} from '../../components';
 import {customerListRequest, profileRequest} from '../../redux/action';
-import io from 'socket.io-client';
 import {handleBackPress} from '../../utils/commonAppUtils';
 import messaging from '@react-native-firebase/messaging';
 import {SocketContext} from '../../utils/socket';
@@ -20,7 +19,9 @@ const Request = ({navigationState}) => {
   const dispatch = useDispatch();
   const selected = index;
   const navigation = useNavigation();
-  const socket = useSelector((state) => state.socket.data);
+  // const socket = useSelector((state) => state.socket.data);
+  
+  const socket = useContext(SocketContext);
 
   const [loading, setLoading] = useState(true);
 

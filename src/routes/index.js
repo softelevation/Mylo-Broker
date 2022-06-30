@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {
   CardStyleInterpolators,
@@ -10,8 +10,7 @@ import {light} from '../components/theme/colors';
 import {navigationRef} from './NavigationService';
 import {useSelector} from 'react-redux';
 import {Alerts, strictValidObjectWithKeys} from '../utils/commonUtils';
-import io from 'socket.io-client';
-import {config} from '../utils/config';
+import {SocketContext} from '../utils/socket';
 import BrokerDetails from '../common/dialog/broker_details';
 import messaging from '@react-native-firebase/messaging';
 
@@ -20,9 +19,9 @@ const RootStack = createStackNavigator();
 const Routes = () => {
   const status = useSelector((state) => state.user.profile.user);
   const [customerDetails, setCustomerDetails] = React.useState({});
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
-    const socket = io(config.Api_Url);
     socket.on('customer_details', (msg) => {
       if (status.status === '1') {
         setCustomerDetails(msg);
