@@ -98,7 +98,7 @@ const Home = ({navigation}) => {
     const locPermissionDenied = await locationPermission();
     if (locPermissionDenied) {
       const {latitude, longitude, heading} = await getCurrentLocation();
-      console.log('get live location after 1 minute', heading);
+      console.log('get live location after 1 minute', latitude, longitude);
       animate(latitude, longitude);
       updateState({
         heading: heading,
@@ -117,9 +117,13 @@ const Home = ({navigation}) => {
   useEffect(() => {
     const int = setInterval(() => {
       getLiveLocation();
-    }, 10000);
+    }, 4000);
     return () => clearInterval(int);
   }, []);
+
+  // useEffect(() => {
+  //   getLiveLocation();
+  // }, []);
 
   useEffect(() => {
     if (strictValidObjectWithKeys(data)) {

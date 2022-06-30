@@ -1,5 +1,5 @@
-import {useFocusEffect, useNavigation , useContext} from '@react-navigation/native';
-import React, {useContext, useEffect, useState} from 'react';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState, useContext} from 'react';
 import {BackHandler, FlatList, StyleSheet, Text, View} from 'react-native';
 import {
   heightPercentageToDP,
@@ -20,7 +20,7 @@ const Request = ({navigationState}) => {
   const selected = index;
   const navigation = useNavigation();
   // const socket = useSelector((state) => state.socket.data);
-  
+
   const socket = useContext(SocketContext);
 
   const [loading, setLoading] = useState(true);

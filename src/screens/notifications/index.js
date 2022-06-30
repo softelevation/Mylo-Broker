@@ -96,6 +96,27 @@ const Notifications = () => {
     dispatch(notificationRequest());
   };
 
+  const statushandle = (type) => {
+    switch (type) {
+      case 'accepted':
+        return 'Accepted';
+      case 'pending':
+        return 'Pending';
+      case 'in_progress':
+        return 'In Progress';
+      case 'rejected':
+        return 'Rejected';
+      case 'cancelled':
+        return 'Cancelled';
+      case 'completed':
+        return 'Completed';
+      case 'travel_to_booking':
+        return 'In Progress';
+      default:
+        return type;
+    }
+  };
+
   const renderCloseIcon = (item) => {
     return (
       <CustomButton onPress={() => cancelRequest(item)}>
@@ -113,7 +134,8 @@ const Notifications = () => {
       <>
         {(item.status === 'accepted' ||
           item.status === 'pending' ||
-          item.status === 'in_progress') && (
+          item.status === 'in_progress' ||
+          item.status === 'feedback') && (
           <CustomButton
             // disabled={item.status === 'pending'}
             onPress={() =>
@@ -140,7 +162,7 @@ const Notifications = () => {
                     body
                     semibold
                     style={{textTransform: 'capitalize'}}>
-                    {item.status}
+                    {statushandle(item.status)}
                   </Text>
                 </Text>
                 <Text margin={[t1, 0, 0, 0]} grey body>
