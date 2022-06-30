@@ -1,5 +1,6 @@
 import {PermissionsAndroid, Platform} from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
+// import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 
 export const getCurrentLocation = () =>
   new Promise((resolve, reject) => {
@@ -15,7 +16,7 @@ export const getCurrentLocation = () =>
       (error) => {
         reject(error.message);
       },
-      {enableHighAccuracy: false, timeout: 15000, maximumAge: 10000},
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     );
   });
 

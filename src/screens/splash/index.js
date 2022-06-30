@@ -7,7 +7,7 @@ import {Block, ImageComponent} from '../../components';
 import {light} from '../../components/theme/colors';
 import {loginSuccess, socketConnection} from '../../redux/action';
 import {Alerts, strictValidString} from '../../utils/commonUtils';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import messaging from '@react-native-firebase/messaging';
 import {Linking, PermissionsAndroid, Platform} from 'react-native';
 import {locationRequest} from '../../redux/action';
