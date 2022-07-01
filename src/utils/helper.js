@@ -16,7 +16,22 @@ export const getCurrentLocation = () =>
       (error) => {
         reject(error.message);
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      {
+        accuracy: {
+          android: 'high',
+          ios: 'best',
+        },
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 10000,
+        distanceFilter: 0,
+        interval: 5000,
+        fastestInterval: 2000,
+        forceRequestLocation: true,
+        forceLocationManager: false,
+        showLocationDialog: true,
+      },
+    );
   });
 
 export const locationPermission = () =>

@@ -119,6 +119,7 @@ const Home = ({navigation}) => {
     const int = setInterval(() => {
       getLiveLocation();
     }, 4000);
+    getLiveLocation();
     return () => clearInterval(int);
   }, []);
 
@@ -198,6 +199,7 @@ const Home = ({navigation}) => {
       )}
       <Block flex={1}>
         <MapView
+          showsUserLocation
           ref={mapRef}
           style={StyleSheet.absoluteFill}
           initialRegion={{
@@ -220,6 +222,7 @@ const Home = ({navigation}) => {
           {Object.keys(destinationCords).length > 0 && (
             <Marker coordinate={destinationCords} />
           )}
+          {Object.keys(curLoc).length > 0 && <Marker coordinate={curLoc} />}
 
           {Object.keys(destinationCords).length > 0 && (
             <MapViewDirections
