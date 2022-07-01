@@ -86,6 +86,7 @@ const Home = ({navigation}) => {
           longitudeDelta: LONGITUDE_DELTA,
         }),
       });
+
       updateValuesOnSocket(latitude, longitude, heading);
     }
   }, [locationReducer]);
