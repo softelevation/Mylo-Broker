@@ -275,7 +275,7 @@ const UpcomingRequest = () => {
   };
   return (
     <Block white middle>
-      {isLoad && <ActivityLoader />}
+      {!refreshing && isLoad && <ActivityLoader />}
       {strictValidObjectWithKeys(data) && (
         <FlatList
           refreshControl={
