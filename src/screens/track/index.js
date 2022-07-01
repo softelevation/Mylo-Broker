@@ -222,7 +222,7 @@ const Home = ({navigation}) => {
           {Object.keys(destinationCords).length > 0 && (
             <Marker coordinate={destinationCords} />
           )}
-          {Object.keys(curLoc).length > 0 && <Marker coordinate={curLoc} />}
+          {/* {Object.keys(curLoc).length > 0 && <Marker coordinate={curLoc} />} */}
 
           {Object.keys(destinationCords).length > 0 && (
             <MapViewDirections
