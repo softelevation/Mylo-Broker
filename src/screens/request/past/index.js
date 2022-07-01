@@ -124,7 +124,7 @@ const PastRequest = () => {
   };
   return (
     <Block white middle>
-      {isLoad && <ActivityLoader />}
+      {!refreshing && isLoad && <ActivityLoader />}
       <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

@@ -23,15 +23,17 @@ import {config} from '../../../utils/config';
 const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.profile.user);
+  console.log('user: ', user);
   const isLoad = useSelector((state) => state.user.profile.loading);
   const [image, setImage] = useState('');
+  console.log('image: ', image);
   const submitValues = (values) => {
     const data = {
       name: values.name,
       address: values.address,
       email: values.email,
       mobile_number: user.phone_no || values.mobile_number,
-      image: image.data,
+      image: image.data || '',
     };
     dispatch(profileUpdateRequest(data));
   };
@@ -96,11 +98,11 @@ const Profile = () => {
   useHardwareBack(handleBack);
 
   const renderProfileImagePath = () => {
-    if (image.path) {
-      return image.path;
-    }
     if (strictValidObjectWithKeys(user) && strictValidString(user.image)) {
       return `${config.Api_Url}/${user.image}`;
+    }
+    if (image.path) {
+      return image.path;
     }
 
     return 'default_icon';

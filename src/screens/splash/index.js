@@ -1,22 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {Block, ImageComponent} from '../../components';
 import {light} from '../../components/theme/colors';
-import {loginSuccess, socketConnection} from '../../redux/action';
+import {loginSuccess} from '../../redux/action';
 import {Alerts, strictValidString} from '../../utils/commonUtils';
 import Geolocation from 'react-native-geolocation-service';
 import messaging from '@react-native-firebase/messaging';
 import {Linking, PermissionsAndroid, Platform} from 'react-native';
 import {locationRequest} from '../../redux/action';
-import {SocketContext} from '../../utils/socket';
 
 const Splash = () => {
   const nav = useNavigation();
   const dispatch = useDispatch();
-  const socket = useContext(SocketContext);
 
   const callAuthApi = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -37,10 +35,6 @@ const Splash = () => {
   };
   useEffect(() => {
     callAuthApi();
-    // const socket = io(config.Api_Url);
-    socket.on('connect', (a) => {
-      dispatch(socketConnection(socket));
-    });
   }, []);
 
   useEffect(() => {

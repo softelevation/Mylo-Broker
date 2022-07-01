@@ -1,12 +1,7 @@
 import React, {useEffect} from 'react';
 import Routes from './src/routes';
-import createSagaMiddleware from 'redux-saga';
-import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
-import {logger} from 'redux-logger';
-import rootreducer from './src/redux/reducer';
 import rootSaga from './src/redux/saga';
-// import {configurePush} from './src/utils/push-notification-service';
 import FlashMessage from 'react-native-flash-message';
 import NetInfo from '@react-native-community/netinfo';
 import {Alert, StyleSheet} from 'react-native';
@@ -17,10 +12,8 @@ import {ErrorBoundary} from 'react-error-boundary';
 import {Block, ImageComponent, Text} from './src/components';
 import {BackHandler, DeviceEventEmitter} from 'react-native';
 import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
+import {sagaMiddleware, store} from './src/redux/store';
 
-const sagaMiddleware = createSagaMiddleware();
-
-const store = createStore(rootreducer, applyMiddleware(sagaMiddleware, logger));
 sagaMiddleware.run(rootSaga);
 
 const App = () => {
