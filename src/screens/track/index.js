@@ -136,10 +136,8 @@ const Home = ({navigation}) => {
   const fetchValue = (data) => {
     updateState({
       destinationCords: {
-        latitude: 30.6783634,
-        longitude: 76.7229952,
-        // latitude: data.latitude,
-        // longitude: data.longitude,
+        latitude: data.latitude,
+        longitude: data.longitude,
       },
     });
   };

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Mylo</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">WWPx-pGBtj8VISfXxZITEHNtF3hs64auM4CZC</string>
 </resources>
